@@ -5,7 +5,14 @@ const nodemailer = require('nodemailer');
 
 if (process.env.DEBUG === '1')
 {
-    require('inspector').open(9221, '0.0.0.0', true);
+    try
+    {
+        require('inspector').open(9221, '0.0.0.0', false);
+    }
+    catch (err)
+    {
+        console.warn('Could not start debugger:', err.message);
+    }
 }
 
 class NetScanApp extends Homey.App
