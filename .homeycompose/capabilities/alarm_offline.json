@@ -1,9 +1,9 @@
 {
     "type": "boolean",
     "title": {
-        "en": "IP reachable",
-        "nl": "IP bereikbaar",
-        "de": "IP erreichbar"
+        "en": "IP not reachable",
+        "nl": "IP niet bereikbaar",
+        "de": "IP nicht erreichbar"
     },
     "getable": true,
     "setable": false,
