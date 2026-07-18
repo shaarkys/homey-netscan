@@ -74,7 +74,7 @@
         var sendInfoLogElement = document.getElementById('sendInfoLog');
 
         // a method named 'onHomeyReady' must be present in your code
-        function onHomeyReady(Homey)
+        async function onHomeyReady(Homey)
         {
             document.getElementById("defaultOpen").click();
 
@@ -83,89 +83,77 @@
                 infoLogElement.value = data.log;
             });
 
-            Homey.get('logLevel', function(err, logLevel)
+            try
             {
-                if (err) return Homey.alert(err);
+                const logLevel = await Homey.get('logLevel');
                 logLevelElement.value = logLevel.toString();
-            });
+                infoLogElement.value = await Homey.api('GET', '/getLog/', {});
+            }
+            catch (err)
+            {
+                await Homey.alert(err);
+            }
 
-            Homey.api('GET', '/getLog/',
+            logLevelElement.addEventListener('change', async function()
             {
-                notify: true
-            }, function(err, result)
-            {
-                if (err)
+                try
                 {
-                    return Homey.alert(err);
+                    await Homey.set('logLevel', parseInt(logLevelElement.value, 10));
                 }
-                else
+                catch (err)
                 {
-                    infoLogElement.value = result;
+                    await Homey.alert(err);
                 }
             });
 
-            logLevelElement.addEventListener('change', function(e)
-            {
-                Homey.set('logLevel', parseInt(logLevelElement.value), function(err)
-                {
-                    if (err) return Homey.alert(err);
-                });
-            });
-
-            sendInfoLogElement.addEventListener('click', function(e)
+            sendInfoLogElement.addEventListener('click', async function()
             {
                 if (infoLogElement.value.length < 15)
                 {
-                    return Homey.alert("No Data to send");
+                    await Homey.alert("No Data to send");
+                    return;
                 }
 
-                Homey.confirm("Send the information log contents to the developer?", null, function(e, ok)
+                const confirmed = await Homey.confirm("Send the information log contents to the developer?", null);
+                if (!confirmed)
                 {
-                    if (ok)
-                    {
-                        waitCursor(true);
-                        Homey.api('POST', '/sendInfoLog/',
-                        {
-                            notify: true
-                        }, function(err, result)
-                        {
-                            if (err)
-                            {
-                                Homey.alert(err);
-                            }
-                            else
-                            {
-                                Homey.alert("Log sent successfully");
-                            }
-                            waitCursor(false);
-                        });
-                    }
-                });
+                    return;
+                }
+
+                waitCursor(true);
+                try
+                {
+                    await Homey.api('POST', '/sendInfoLog/', {});
+                    await Homey.alert("Log sent successfully");
+                }
+                catch (err)
+                {
+                    await Homey.alert(err);
+                }
+                finally
+                {
+                    waitCursor(false);
+                }
             });
 
-            clearInfoLogElement.addEventListener('click', function(e)
+            clearInfoLogElement.addEventListener('click', async function()
             {
-                Homey.api('POST', '/clearLog/',
+                try
                 {
-                    notify: true
-                }, function(err, result)
+                    await Homey.api('POST', '/clearLog/', {});
+                    infoLogElement.value = "";
+                }
+                catch (err)
                 {
-                    if (err)
-                    {
-                        return Homey.alert(err);
-                    }
-                    else
-                    {
-                        infoLogElement.value = "";
-                    }
-                });
+                    await Homey.alert(err);
+                }
             });
 
             // Tell Homey we're ready to be displayed
             Homey.ready();
         }
 
-        function setPage(evt, tabPage)
+        async function setPage(evt, tabPage)
         {
             var i, tabcontent, tablinks;
 
@@ -189,12 +177,14 @@
 
             if (tabPage == 'log')
             {
-                // Refresh the log data
-                Homey.get('logLevel', function(err, logLevel)
+                try
                 {
-                    if (err) return Homey.alert(err);
-                    logLevelElement.value = logLevel;
-                });
+                    logLevelElement.value = await Homey.get('logLevel');
+                }
+                catch (err)
+                {
+                    await Homey.alert(err);
+                }
 
                 // Make the log text area fill the page
                 infoLogElement.setAttribute('cols', infoLogElement.parentElement.clientWidth / 8);
