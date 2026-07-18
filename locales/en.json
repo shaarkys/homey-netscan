@@ -1,7 +1,8 @@
 {
     "settings": {
         "clear": "Clear Log",
-        "send": "Send Log"
+        "send": "Send Log",
+        "logLevel": "Log level"
     },
     "pair": {
         "configuration": {
@@ -10,7 +11,9 @@
             "tcp_port": "TCP port",
             "configure": "Configure",
             "explanation": "Watch a TCP port on a specific IP address.",
-            "tcp_port_invalid": "The specified TCP port is invalid. Should be between 1 and 65535"
+            "ip_explanation": "Watch a device at a specific IP address.",
+            "tcp_port_invalid": "The specified TCP port must be between 1 and 65535.",
+            "host_required": "Enter an IP address or hostname."
         }
     }
 }

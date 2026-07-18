@@ -3,8 +3,6 @@
 // The IP driver works by connecting to a port and checking which error response one gets.
 // We have to assume a port is closed, this assumption is corrected if a device appears to have the port open anyway.
 
-// https://www.tutorialspoint.com/nodejs/nodejs_net_module.htm
-var net = require("net");
 const Homey = require('homey');
 
 class ipDriver extends Homey.Driver
@@ -19,41 +17,28 @@ class ipDriver extends Homey.Driver
         this.ip_device_changed_state_trigger = this.homey.flow.getDeviceTriggerCard('ip_device_change');
     }
 
-    device_came_online(device)
+    async device_came_online(device)
     {
-        this.ip_device_came_online_trigger
-            .trigger(device)
-            .catch(this.error);
-
-        let tokens = {
+        const tokens = {
             value: true
         };
 
-        this.ip_device_changed_state_trigger
-            .trigger(device, tokens)
-            .catch(this.error);
+        await Promise.all([
+            this.ip_device_came_online_trigger.trigger(device),
+            this.ip_device_changed_state_trigger.trigger(device, tokens),
+        ]);
     }
 
-    device_went_offline(device)
+    async device_went_offline(device)
     {
-        this.ip_device_went_offline_trigger
-            .trigger(device)
-            .catch(this.error);
-
-        let tokens = {
+        const tokens = {
             value: false
         };
 
-        this.ip_device_changed_state_trigger
-            .trigger(device, tokens)
-            .catch(this.error);
-    }
-
-    // the `pair` method is called when a user start pairing
-    async onPairListDevices()
-    {
-        this.homey.app.updateLog("Pairing started");
-
+        await Promise.all([
+            this.ip_device_went_offline_trigger.trigger(device),
+            this.ip_device_changed_state_trigger.trigger(device, tokens),
+        ]);
     }
 
 }

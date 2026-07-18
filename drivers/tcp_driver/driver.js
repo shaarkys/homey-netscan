@@ -1,7 +1,6 @@
 "use strict";
 
 const Homey = require('homey');
-var net = require("net");
 
 // the `init` method is called when your driver is loaded for the first time
 class tcpDriver extends Homey.Driver
@@ -15,41 +14,28 @@ class tcpDriver extends Homey.Driver
         this.device_changed_state_trigger = this.homey.flow.getDeviceTriggerCard('device_change');
     }
 
-    device_came_online(device)
+    async device_came_online(device)
     {
-        this.device_came_online_trigger
-            .trigger(device)
-            .catch(this.error);
-
-        let tokens = {
+        const tokens = {
             value: true
         };
 
-        this.device_changed_state_trigger
-            .trigger(device, tokens)
-            .catch(this.error);
+        await Promise.all([
+            this.device_came_online_trigger.trigger(device),
+            this.device_changed_state_trigger.trigger(device, tokens),
+        ]);
     }
 
-    device_went_offline(device)
+    async device_went_offline(device)
     {
-        this.device_went_offline_trigger
-            .trigger(device)
-            .catch(this.error);
-
-        let tokens = {
-            value: true
+        const tokens = {
+            value: false
         };
 
-        this.device_changed_state_trigger
-            .trigger(device, tokens)
-            .catch(this.error);
-    }
-
-    // the `pair` method is called when a user start pairing
-    async onPairListDevices()
-    {
-        this.homey.app.updateLog("Pairing started");
-
+        await Promise.all([
+            this.device_went_offline_trigger.trigger(device),
+            this.device_changed_state_trigger.trigger(device, tokens),
+        ]);
     }
 
 }

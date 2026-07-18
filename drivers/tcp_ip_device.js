@@ -1,158 +1,116 @@
-/*jslint node: true */
 'use strict';
 
 const Homey = require('homey');
-var net = require("net");
+const net = require('net');
 
 class TcpIpDevice extends Homey.Device
 {
     async onInit()
     {
+        this.client = null;
+        this.checkTimer = null;
+        this.cancelCheck = null;
+        this.scanGeneration = 0;
+        this.stopped = false;
+        this.unreachableCount = 0;
+
+        await this.migrateCapabilities();
+        this.offline = this.getCapabilityValue('alarm_offline');
+        if (this.getCapabilityValue('onoff') === null && typeof this.offline === 'boolean')
+        {
+            await this.setCapabilityValue('onoff', !this.offline);
+        }
+        this.applySettings(this.getSettings());
+        this.scanDevice();
+    }
+
+    async migrateCapabilities()
+    {
+        if (!this.hasCapability('alarm_offline'))
+        {
+            await this.addCapability('alarm_offline');
+        }
+
         if (this.hasCapability('ip_present'))
         {
-            this.addCapability('alarm_offline');
-            this.removeCapability('ip_present');
+            await this.removeCapability('ip_present');
         }
-        this.offline = this.getCapabilityValue('alarm_offline');
+
         if (!this.hasCapability('onoff'))
         {
             await this.addCapability('onoff');
-			this.setCapabilityValue('onoff', !this.offline);
         }
 
-		let options = this.getCapabilityOptions('onoff');
-		options.setable = false;
-		options.getable = true;
-		options.uiComponent = null;
-		this.setCapabilityOptions('onoff', options);
-
-        this.host = this.getSetting('host');
-        this.port = this.getSetting('tcp_port');
-        this.checkTimer = null;
-        this.unreachableCount = 0;
-
-        this.checkInterval = this.getSetting('host_check_interval');
-        if (!this.checkInterval || (this.checkInterval < 15))
+        const options = this.getCapabilityOptions('onoff');
+        if (options.setable !== false || options.getable !== true || options.uiComponent !== null)
         {
-            this.checkInterval = 15;
+            await this.setCapabilityOptions('onoff', {
+                ...options,
+                setable: false,
+                getable: true,
+                uiComponent: null,
+            });
         }
-        this.checkInterval = 1000 * this.checkInterval;
-
-        this.hostTimeout = this.getSetting('host_timeout');
-        if (!this.hostTimeout || (this.hostTimeout < 10))
-        {
-            this.hostTimeout = 10;
-        }
-        this.hostTimeout = 1000 * parseInt(this.hostTimeout);
-
-        this.maxUnreachableAttempts = this.getSetting('host_unreachable_checks');
-        if (!this.maxUnreachableAttempts)
-        {
-            this.maxUnreachableAttempts = 1;
-        }
-        this.maxUnreachableAttempts = parseInt(this.maxUnreachableAttempts) - 1;
-
-        this.cancelCheck = null;
-
-        this.createClient();
     }
 
-    createClient()
+    applySettings(settings)
     {
-        this.client = new net.Socket();
-        //this.client.setTimeout(this.hostTimeout);
-        this.scanDevice2 = this.scanDevice2.bind(this);
+        this.host = String(settings.host || '').trim();
 
-        this.client.on('connect', () =>
+        if (settings.tcp_port === null || settings.tcp_port === undefined || settings.tcp_port === '')
         {
-            this.homey.app.updateLog(this.getName() + " - " + this.host + (this.port ? (": " + this.port) : "") + " on connect");
-            this.handleOnline();
-        });
-
-        this.client.on('data', (data) =>
+            this.port = null;
+        }
+        else
         {
-            // Consume any data to prevent memory leaks
-            this.homey.app.updateLog(this.getName() + " - " + this.host + " on data");
-            this.homey.app.updateLog(data);
-        });
+            this.port = Number(settings.tcp_port);
+        }
 
-        this.client.on('close', (hadError) =>
-        {
-            this.homey.app.updateLog(this.getName() + " - " + this.host + " on close");
-            this.client.destroy();
-            if (this.host)
-            {
-                // Not deleting device so start polling timer
-                if (this.checkTimer)
-                {
-                    // If the timer is running then cancel it and start the scan immediately 
-                    this.homey.clearTimeout(this.checkTimer);
-                }
-                this.checkTimer = this.homey.setTimeout(this.scanDevice2, this.checkInterval);
-            }
-        });
+        const interval = Number(settings.host_check_interval);
+        this.checkInterval = 1000 * (Number.isFinite(interval) && interval >= 15 ? interval : 15);
 
-        this.client.on('error', (err) =>
-        {
-            this.homey.app.updateLog(this.getName() + " - " + this.host + " on error " + err.code);
-            if (err && err.code && err.code == "ECONNREFUSED")
-            {
-                if (this.port === null)
-                {
-                    this.handleOnline();
-                }
-                else
-                {
-                    this.handleOffline();
-                }
-            }
-            else if (err && err.code && err.code == "EHOSTUNREACH")
-            {
-                // Make sure it is not just a temporary miss
-                if (this.unreachableCount >= this.maxUnreachableAttempts)
-                {
-                    // Nope, been offline too many consecutive times
-                    this.handleOffline();
-                }
-                else
-                {
-                    this.homey.clearTimeout(this.cancelCheck);
-                    this.cancelCheck = null;
-            
-                    this.homey.app.updateLog(`${this.getName()} - ${this.host} offline postponed for ${this.maxUnreachableAttempts - this.unreachableCount} more checks`);
-                    this.unreachableCount++;
-                    this.client.destroy();
-                }
-            }
-            else if (err && err.code && err.code == "EALREADY")
-            {
-                this.handleOnline();
-            }
-            else if (err && err.code)
-            {
-                this.homey.app.updateLog("Device can only handle ECONNREFUSED and EHOSTUNREACH, but got " + err.code);
-            }
-            else
-            {
-                this.homey.app.updateLog("Device can't handle " + this.homey.app.varToString(err));
-            }
-        });
+        const timeout = Number(settings.host_timeout);
+        this.hostTimeout = 1000 * (Number.isFinite(timeout) && timeout >= 10 ? timeout : 10);
 
-        this.scanDevice2();
+        const unreachableChecks = Number(settings.host_unreachable_checks);
+        const maxChecks = Number.isInteger(unreachableChecks) && unreachableChecks >= 1
+            ? unreachableChecks
+            : 1;
+        this.maxUnreachableAttempts = maxChecks - 1;
     }
 
-    // the `added` method is called is when pairing is done and a device has been added
-    async onAdded() {}
-
-    // the `delete` method is called when a device has been deleted by a user
     async onDeleted()
     {
-        this.host = null;
+        this.stopPolling();
+    }
+
+    async onUninit()
+    {
+        this.stopPolling();
+    }
+
+    async onSettings({ newSettings })
+    {
+        this.applySettings(newSettings);
+        this.cancelCurrentScan();
+        this.scanDevice();
+    }
+
+    stopPolling()
+    {
+        this.stopped = true;
+        this.cancelCurrentScan();
+    }
+
+    cancelCurrentScan()
+    {
+        this.scanGeneration++;
+
         if (this.checkTimer)
         {
             this.homey.clearTimeout(this.checkTimer);
             this.checkTimer = null;
-        }     
+        }
 
         if (this.cancelCheck)
         {
@@ -160,145 +118,175 @@ class TcpIpDevice extends Homey.Device
             this.cancelCheck = null;
         }
 
-        this.client.destroy();
+        if (this.client)
+        {
+            this.client.removeAllListeners();
+            this.client.destroy();
+            this.client = null;
+        }
     }
 
-    async onSettings({ oldSettings, newSettings, changedKeys })
+    scheduleNextScan(generation)
     {
-        if (changedKeys.indexOf("host") >= 0)
+        if (this.stopped || generation !== this.scanGeneration)
         {
-            this.host = newSettings.host;
+            return;
         }
 
-        if (changedKeys.indexOf("tcp_port") >= 0)
+        this.checkTimer = this.homey.setTimeout(() =>
         {
-            this.port = newSettings.tcp_port;
-        }
+            this.checkTimer = null;
+            this.scanDevice();
+        }, this.checkInterval);
+    }
 
-        if (changedKeys.indexOf("host_check_interval") >= 0)
+    scanDevice()
+    {
+        if (this.stopped || !this.host)
         {
-            this.checkInterval = newSettings.host_check_interval;
-            if (!this.checkInterval || (this.checkInterval < 15))
-            {
-                this.checkInterval = 15;
-            }
-            this.checkInterval = 1000 * parseInt(this.checkInterval);
-        }
-
-        if (changedKeys.indexOf("host_timeout") >= 0)
-        {
-            this.hostTimeout = newSettings.host_timeout;
-            if (!this.hostTimeout || (this.hostTimeout < 10))
-            {
-                this.hostTimeout = 10;
-            }
-            this.hostTimeout = 1000 * parseInt(this.hostTimeout);
-        }
-
-        if (changedKeys.indexOf("host_unreachable_checks") >= 0)
-        {
-            this.maxUnreachableAttempts = parseInt(newSettings.host_unreachable_checks) - 1;
-        }
-
-        if (this.cancelCheck)
-        {
-            // If the timeout timer is running then a check is in progress so cancel it now
-            this.homey.clearTimeout(this.cancelCheck);
+            return;
         }
 
         if (this.checkTimer)
         {
-            // If the timer is running then cancel it and start the scan immediately 
             this.homey.clearTimeout(this.checkTimer);
             this.checkTimer = null;
-
-            //this.client.setTimeout(this.hostTimeout);
-            this.scanDevice2();
         }
-    }
 
-    handleOnline()
-    {
-        this.unreachableCount = 0;
-        this.homey.clearTimeout(this.cancelCheck);
-        this.cancelCheck = null;
+        const generation = ++this.scanGeneration;
+        const client = new net.Socket();
+        let finished = false;
+        this.client = client;
 
-        if ((this.offline === null) || this.offline)
+        const target = this.host + (this.port === null ? '' : ':' + this.port);
+        this.homey.app.updateLog('Checking ' + (this.port === null ? 'IP' : 'TCP') + ' device '
+            + this.getName() + ' - ' + target);
+
+        const complete = async (online) =>
         {
-            this.homey.app.updateLog("**** Device came Online " + this.getName() + " - " + this.host);
-            this.offline = false;
-            this.setCapabilityValue('alarm_offline', false);
-			this.setCapabilityValue('onoff', !this.offline);
+            if (finished || this.stopped || generation !== this.scanGeneration)
+            {
+                return;
+            }
 
-            // Trigger the online action
-            this.driver.device_came_online(this);
-        }
-        else
-        {
-            this.homey.app.updateLog("Device still Online " + this.getName() + " - " + this.host);
-        }
-        this.client.destroy();
-    }
+            finished = true;
+            if (this.cancelCheck)
+            {
+                this.homey.clearTimeout(this.cancelCheck);
+                this.cancelCheck = null;
+            }
 
-    handleOffline()
-    {
-        this.homey.clearTimeout(this.cancelCheck);
-        this.cancelCheck = null;
-        if ((this.offline === null) || !this.offline)
-        {
-            this.homey.app.updateLog("!!!! Device went Offline " + this.getName() + " - " + this.host);
-            this.offline = true;
-            this.setCapabilityValue('alarm_offline', true);
-			this.setCapabilityValue('onoff', !this.offline);
+            client.removeAllListeners();
+            client.destroy();
+            if (this.client === client)
+            {
+                this.client = null;
+            }
 
-            // Trigger the offline action
-            this.driver.device_went_offline(this);
-        }
-        else
-        {
-            this.homey.app.updateLog("Device still Offline " + this.getName() + " - " + this.host);
-        }
+            try
+            {
+                await this.recordObservation(online);
+            }
+            catch (err)
+            {
+                this.error('Could not update device state:', err);
+            }
+            finally
+            {
+                this.scheduleNextScan(generation);
+            }
+        };
 
-        this.client.destroy();
-    }
+        client.once('connect', () =>
+        {
+            complete(true).catch((err) => this.error(err));
+        });
 
-    async scanDevice2()
-    {
-        if (this.port === null)
+        client.once('error', (err) =>
         {
-            this.homey.app.updateLog("Checking IP device " + this.getName() + " - " + this.host);
-        }
-        else
-        {
-            this.homey.app.updateLog("Checking TCP device " + this.getName() + " - " + this.host + " port: " + this.port);
-        }
+            this.homey.app.updateLog(this.getName() + ' - ' + target + ' connection error ' + (err.code || err.message));
+            const hostResponded = this.port === null && (err.code === 'ECONNREFUSED' || err.code === 'EALREADY');
+            complete(hostResponded).catch((completeError) => this.error(completeError));
+        });
 
         this.cancelCheck = this.homey.setTimeout(() =>
         {
-            this.cancelCheck = null;
-            this.homey.app.updateLog("Device Timeout " + this.getName() + " - " + this.host + (this.port ? (": " + this.port) : ""));
-            // Make sure it is not just a temporary miss
-            if (this.unreachableCount >= this.maxUnreachableAttempts)
-            {
-                // Nope, been offline too many consecutive times
-                this.handleOffline();
-            }
-            else
-            {
-                this.homey.app.updateLog(`${this.getName()} - ${this.host} offline postponed for ${this.maxUnreachableAttempts - this.unreachableCount} more checks`);
-                this.unreachableCount++;
-                this.client.destroy();
-            }
+            this.homey.app.updateLog('Device timeout ' + this.getName() + ' - ' + target);
+            complete(false).catch((err) => this.error(err));
         }, this.hostTimeout);
 
-        this.client.connect(this.port ? this.port : 1, this.host, null);
+        try
+        {
+            client.connect(this.port === null ? 1 : this.port, this.host);
+        }
+        catch (err)
+        {
+            this.homey.app.updateLog(this.getName() + ' - ' + target + ' connection error ' + err.message);
+            complete(false).catch((completeError) => this.error(completeError));
+        }
     }
 
-    async slowDown()
+    async recordObservation(online)
     {
-        this.checkInterval *= 2;
-        this.homey.app.updateLog("Device slow down " + this.checkInterval);
+        if (online)
+        {
+            this.unreachableCount = 0;
+            await this.handleOnline();
+            return;
+        }
+
+        if (this.unreachableCount >= this.maxUnreachableAttempts)
+        {
+            await this.handleOffline();
+            return;
+        }
+
+        this.homey.app.updateLog(`${this.getName()} - ${this.host} offline postponed for `
+            + `${this.maxUnreachableAttempts - this.unreachableCount} more checks`);
+        this.unreachableCount++;
     }
 
+    async handleOnline()
+    {
+        if (this.offline === null || this.offline)
+        {
+            this.homey.app.updateLog('**** Device came Online ' + this.getName() + ' - ' + this.host);
+            this.offline = false;
+            await Promise.all([
+                this.setCapabilityValue('alarm_offline', false),
+                this.setCapabilityValue('onoff', true),
+            ]);
+            await this.driver.device_came_online(this);
+        }
+        else
+        {
+            this.homey.app.updateLog('Device still Online ' + this.getName() + ' - ' + this.host);
+        }
+    }
+
+    async handleOffline()
+    {
+        if (this.offline === null || !this.offline)
+        {
+            this.homey.app.updateLog('!!!! Device went Offline ' + this.getName() + ' - ' + this.host);
+            this.offline = true;
+            await Promise.all([
+                this.setCapabilityValue('alarm_offline', true),
+                this.setCapabilityValue('onoff', false),
+            ]);
+            await this.driver.device_went_offline(this);
+        }
+        else
+        {
+            this.homey.app.updateLog('Device still Offline ' + this.getName() + ' - ' + this.host);
+        }
+    }
+
+    slowDown()
+    {
+        this.checkInterval = Math.min(this.checkInterval * 2, 60 * 60 * 1000);
+        this.homey.app.updateLog('Device slow down ' + this.checkInterval);
+    }
 }
+
 module.exports = TcpIpDevice;

@@ -14,8 +14,9 @@
     "tools"
   ],
   "images": {
-    "large": "assets/large.png",
-    "small": "assets/small.png"
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png",
+    "xlarge": "/assets/images/xlarge.png"
   },
   "description": {
     "en": "Watch devices on your local network by scanning for TCP ports",
@@ -68,9 +69,9 @@
       "method": "post",
       "path": "/clearLog/"
     },
-    "SendInfoLog": {
+    "sendInfoLog": {
       "method": "post",
-      "path": "/SendInfoLog/"
+      "path": "/sendInfoLog/"
     }
   },
   "flow": {
@@ -295,10 +296,6 @@
       "pair": [
         {
           "id": "configure_ip"
-        },
-        {
-          "id": "add_sockets",
-          "template": "add_devices"
         }
       ],
       "settings": [
@@ -312,7 +309,11 @@
           "children": [
             {
               "id": "host",
-              "hint": "IP address of the device to check",
+              "hint": {
+                "en": "IP address of the device to check",
+                "nl": "IP-adres van het te controleren apparaat",
+                "de": "IP-Adresse des zu überprüfenden Geräts"
+              },
               "type": "text",
               "value": "0.0.0.0",
               "label": {
@@ -326,6 +327,7 @@
               "hint": "Time between checks for the device",
               "type": "number",
               "value": 15,
+              "min": 15,
               "units": "seconds",
               "label": {
                 "en": "Check Interval",
@@ -338,6 +340,7 @@
               "hint": "Time to wait before reporting the device is offline",
               "type": "number",
               "value": 10,
+              "min": 10,
               "units": "seconds",
               "label": {
                 "en": "Check Timeout",
@@ -350,6 +353,7 @@
               "hint": "Number of unreachable failures before reporting the device is offline",
               "type": "number",
               "value": 1,
+              "min": 1,
               "label": {
                 "en": "Unreachable checks",
                 "nl": "Onbereikbare controles",
@@ -402,10 +406,6 @@
       "pair": [
         {
           "id": "configure_ip"
-        },
-        {
-          "id": "add_sockets",
-          "template": "add_devices"
         }
       ],
       "settings": [
@@ -441,6 +441,7 @@
               },
               "type": "number",
               "value": 9090,
+              "min": 1,
               "label": {
                 "en": "TCP port",
                 "nl": "TCP poort",
@@ -457,6 +458,7 @@
               },
               "type": "number",
               "value": 15,
+              "min": 15,
               "units": "seconds",
               "label": {
                 "en": "Check Interval",
@@ -473,6 +475,7 @@
               },
               "type": "number",
               "value": 10,
+              "min": 10,
               "units": "seconds",
               "label": {
                 "en": "Check Timeout",
@@ -489,6 +492,7 @@
               },
               "type": "number",
               "value": 1,
+              "min": 1,
               "label": {
                 "en": "Unreachable checks",
                 "nl": "Onbereikbare controles",
