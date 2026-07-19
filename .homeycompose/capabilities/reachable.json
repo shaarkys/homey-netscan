@@ -1,0 +1,24 @@
+{
+    "type": "boolean",
+    "title": {
+        "en": "Network reachability",
+        "nl": "Netwerkbereikbaarheid",
+        "de": "Netzwerkerreichbarkeit"
+    },
+    "getable": true,
+    "setable": true,
+    "insights": true,
+    "uiComponent": "sensor",
+    "uiQuickAction": true,
+    "insightsTitleTrue": {
+        "en": "Device is reachable",
+        "nl": "Apparaat is bereikbaar",
+        "de": "Gerät ist erreichbar"
+    },
+    "insightsTitleFalse": {
+        "en": "Device is not reachable",
+        "nl": "Apparaat is niet bereikbaar",
+        "de": "Gerät ist nicht erreichbar"
+    },
+    "icon": "/assets/connection-status.svg"
+}

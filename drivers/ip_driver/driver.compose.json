@@ -12,25 +12,21 @@
     ],
     "class": "sensor",
     "capabilities": [
-        "alarm_offline",
-		"onoff"
+        "reachable"
     ],
     "capabilitiesOptions": {
-        "alarm_offline": {
+        "reachable": {
             "titleTrue": {
-                "en": "Offline",
-		"nl": "Offline",
-		"de": "Offline"
+                "en": "Reachable",
+                "nl": "Bereikbaar",
+                "de": "Erreichbar"
             },
             "titleFalse": {
-                "en": "Online",
-		"nl": "Online",
-		"de": "Online"
+                "en": "Not reachable",
+                "nl": "Niet bereikbaar",
+                "de": "Nicht erreichbar"
             }
-        },
-		"onoff": {
-			"uiComponent": null
-		}
+        }
     },
     "images": {
         "large": "assets/drivers/ip_driver/large.png",

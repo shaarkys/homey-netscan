@@ -269,24 +269,20 @@
       ],
       "class": "sensor",
       "capabilities": [
-        "alarm_offline",
-        "onoff"
+        "reachable"
       ],
       "capabilitiesOptions": {
-        "alarm_offline": {
+        "reachable": {
           "titleTrue": {
-            "en": "Offline",
-            "nl": "Offline",
-            "de": "Offline"
+            "en": "Reachable",
+            "nl": "Bereikbaar",
+            "de": "Erreichbar"
           },
           "titleFalse": {
-            "en": "Online",
-            "nl": "Online",
-            "de": "Online"
+            "en": "Not reachable",
+            "nl": "Niet bereikbaar",
+            "de": "Nicht erreichbar"
           }
-        },
-        "onoff": {
-          "uiComponent": null
         }
       },
       "images": {
@@ -379,24 +375,20 @@
       ],
       "class": "sensor",
       "capabilities": [
-        "alarm_offline",
-        "onoff"
+        "reachable"
       ],
       "capabilitiesOptions": {
-        "alarm_offline": {
+        "reachable": {
           "titleTrue": {
-            "en": "Offline",
-            "nl": "Offline",
-            "de": "Offline"
+            "en": "Reachable",
+            "nl": "Bereikbaar",
+            "de": "Erreichbar"
           },
           "titleFalse": {
-            "en": "Online",
-            "nl": "Online",
-            "de": "Online"
+            "en": "Not reachable",
+            "nl": "Niet bereikbaar",
+            "de": "Nicht erreichbar"
           }
-        },
-        "onoff": {
-          "uiComponent": null
         }
       },
       "images": {
@@ -506,27 +498,29 @@
     }
   ],
   "capabilities": {
-    "alarm_offline": {
+    "reachable": {
       "type": "boolean",
       "title": {
-        "en": "IP not reachable",
-        "nl": "IP niet bereikbaar",
-        "de": "IP nicht erreichbar"
+        "en": "Network reachability",
+        "nl": "Netwerkbereikbaarheid",
+        "de": "Netzwerkerreichbarkeit"
       },
       "getable": true,
-      "setable": false,
+      "setable": true,
       "insights": true,
-      "insightsTitleFalse": {
-        "en": "IP is reachable",
-        "nl": "IP is bereikbaar",
-        "de": "IP ist erreichbar"
-      },
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
       "insightsTitleTrue": {
-        "en": "IP not reachable",
-        "nl": "IP niet bereikbaar",
-        "de": "IP ist nicht erreichbar"
+        "en": "Device is reachable",
+        "nl": "Apparaat is bereikbaar",
+        "de": "Gerät ist erreichbar"
       },
-      "icon": "/assets/sonar.svg"
+      "insightsTitleFalse": {
+        "en": "Device is not reachable",
+        "nl": "Apparaat is niet bereikbaar",
+        "de": "Gerät ist nicht erreichbar"
+      },
+      "icon": "/assets/connection-status.svg"
     }
   }
 }

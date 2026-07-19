@@ -15,41 +15,64 @@ class TcpIpDevice extends Homey.Device
         this.unreachableCount = 0;
 
         await this.migrateCapabilities();
-        this.offline = this.getCapabilityValue('alarm_offline');
-        if (this.getCapabilityValue('onoff') === null && typeof this.offline === 'boolean')
+        this.reachable = this.getCapabilityValue('reachable');
+        this.registerCapabilityListener('reachable', async () =>
         {
-            await this.setCapabilityValue('onoff', !this.offline);
-        }
+            // Keep Homey's quick action from overriding the scanner-managed state.
+            await this.setCapabilityValue('reachable', this.reachable);
+        });
         this.applySettings(this.getSettings());
         this.scanDevice();
     }
 
     async migrateCapabilities()
     {
-        if (!this.hasCapability('alarm_offline'))
+        const hasReachable = this.hasCapability('reachable');
+        let previousReachable = hasReachable
+            ? this.getCapabilityValue('reachable')
+            : null;
+
+        if (typeof previousReachable !== 'boolean' && this.hasCapability('alarm_offline'))
         {
-            await this.addCapability('alarm_offline');
+            const previousOffline = this.getCapabilityValue('alarm_offline');
+            if (typeof previousOffline === 'boolean')
+            {
+                previousReachable = !previousOffline;
+            }
+        }
+        if (typeof previousReachable !== 'boolean' && this.hasCapability('ip_present'))
+        {
+            const previousPresent = this.getCapabilityValue('ip_present');
+            if (typeof previousPresent === 'boolean')
+            {
+                previousReachable = previousPresent;
+            }
+        }
+        if (typeof previousReachable !== 'boolean' && this.hasCapability('onoff'))
+        {
+            const previousOnOff = this.getCapabilityValue('onoff');
+            if (typeof previousOnOff === 'boolean')
+            {
+                previousReachable = previousOnOff;
+            }
         }
 
-        if (this.hasCapability('ip_present'))
+        if (!hasReachable)
         {
-            await this.removeCapability('ip_present');
+            await this.addCapability('reachable');
+        }
+        if (typeof previousReachable === 'boolean'
+            && this.getCapabilityValue('reachable') !== previousReachable)
+        {
+            await this.setCapabilityValue('reachable', previousReachable);
         }
 
-        if (!this.hasCapability('onoff'))
+        for (const capabilityId of ['alarm_offline', 'ip_present', 'onoff'])
         {
-            await this.addCapability('onoff');
-        }
-
-        const options = this.getCapabilityOptions('onoff');
-        if (options.setable !== false || options.getable !== true || options.uiComponent !== null)
-        {
-            await this.setCapabilityOptions('onoff', {
-                ...options,
-                setable: false,
-                getable: true,
-                uiComponent: null,
-            });
+            if (this.hasCapability(capabilityId))
+            {
+                await this.removeCapability(capabilityId);
+            }
         }
     }
 
@@ -248,14 +271,11 @@ class TcpIpDevice extends Homey.Device
 
     async handleOnline()
     {
-        if (this.offline === null || this.offline)
+        if (this.reachable !== true)
         {
             this.homey.app.updateLog('**** Device came Online ' + this.getName() + ' - ' + this.host);
-            this.offline = false;
-            await Promise.all([
-                this.setCapabilityValue('alarm_offline', false),
-                this.setCapabilityValue('onoff', true),
-            ]);
+            this.reachable = true;
+            await this.setCapabilityValue('reachable', true);
             await this.driver.device_came_online(this);
         }
         else
@@ -266,14 +286,11 @@ class TcpIpDevice extends Homey.Device
 
     async handleOffline()
     {
-        if (this.offline === null || !this.offline)
+        if (this.reachable !== false)
         {
             this.homey.app.updateLog('!!!! Device went Offline ' + this.getName() + ' - ' + this.host);
-            this.offline = true;
-            await Promise.all([
-                this.setCapabilityValue('alarm_offline', true),
-                this.setCapabilityValue('onoff', false),
-            ]);
+            this.reachable = false;
+            await this.setCapabilityValue('reachable', false);
             await this.driver.device_went_offline(this);
         }
         else

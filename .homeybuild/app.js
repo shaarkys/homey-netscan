@@ -30,25 +30,25 @@ class NetScanApp extends Homey.App
         const ip_device_is_online_condition = this.homey.flow.getConditionCard('ip_device_is_online');
         ip_device_is_online_condition.registerRunListener(async (args, state) =>
         {
-            return !args.device.offline; // true or false
+            return args.device.reachable;
         });
 
         const ip_device_is_offline_condition = this.homey.flow.getConditionCard('ip_device_is_offline');
         ip_device_is_offline_condition.registerRunListener(async (args, state) =>
         {
-            return args.device.offline; // true or false
+            return !args.device.reachable;
         });
 
         const device_is_online_condition = this.homey.flow.getConditionCard('device_is_online');
         device_is_online_condition.registerRunListener(async (args, state) =>
         {
-            return !args.device.offline; // true or false
+            return args.device.reachable;
         });
 
         const device_is_offline_condition = this.homey.flow.getConditionCard('device_is_offline');
         device_is_offline_condition.registerRunListener(async (args, state) =>
         {
-            return args.device.offline; // true or false
+            return !args.device.reachable;
         });
 
         this.homey.on('cpuwarn', () =>
