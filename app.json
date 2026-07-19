@@ -269,7 +269,9 @@
       ],
       "class": "sensor",
       "capabilities": [
-        "reachable"
+        "reachable",
+        "alarm_offline",
+        "onoff"
       ],
       "capabilitiesOptions": {
         "reachable": {
@@ -283,6 +285,24 @@
             "nl": "Niet bereikbaar",
             "de": "Nicht erreichbar"
           }
+        },
+        "alarm_offline": {
+          "titleTrue": {
+            "en": "Offline",
+            "nl": "Offline",
+            "de": "Offline"
+          },
+          "titleFalse": {
+            "en": "Online",
+            "nl": "Online",
+            "de": "Online"
+          },
+          "uiComponent": null,
+          "preventInsights": true
+        },
+        "onoff": {
+          "uiComponent": null,
+          "preventInsights": true
         }
       },
       "images": {
@@ -375,7 +395,9 @@
       ],
       "class": "sensor",
       "capabilities": [
-        "reachable"
+        "reachable",
+        "alarm_offline",
+        "onoff"
       ],
       "capabilitiesOptions": {
         "reachable": {
@@ -389,6 +411,24 @@
             "nl": "Niet bereikbaar",
             "de": "Nicht erreichbar"
           }
+        },
+        "alarm_offline": {
+          "titleTrue": {
+            "en": "Offline",
+            "nl": "Offline",
+            "de": "Offline"
+          },
+          "titleFalse": {
+            "en": "Online",
+            "nl": "Online",
+            "de": "Online"
+          },
+          "uiComponent": null,
+          "preventInsights": true
+        },
+        "onoff": {
+          "uiComponent": null,
+          "preventInsights": true
         }
       },
       "images": {
@@ -498,6 +538,29 @@
     }
   ],
   "capabilities": {
+    "alarm_offline": {
+      "type": "boolean",
+      "title": {
+        "en": "IP not reachable",
+        "nl": "IP niet bereikbaar",
+        "de": "IP nicht erreichbar"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": null,
+      "insightsTitleFalse": {
+        "en": "IP is reachable",
+        "nl": "IP is bereikbaar",
+        "de": "IP ist erreichbar"
+      },
+      "insightsTitleTrue": {
+        "en": "IP not reachable",
+        "nl": "IP niet bereikbaar",
+        "de": "IP ist nicht erreichbar"
+      },
+      "icon": "/assets/connection-status.svg"
+    },
     "reachable": {
       "type": "boolean",
       "title": {

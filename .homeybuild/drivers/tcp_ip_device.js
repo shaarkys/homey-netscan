@@ -13,14 +13,23 @@ class TcpIpDevice extends Homey.Device
         this.scanGeneration = 0;
         this.stopped = false;
         this.unreachableCount = 0;
+        this.deferredCapabilities = new Set();
 
-        await this.migrateCapabilities();
-        this.reachable = this.getCapabilityValue('reachable');
-        this.registerCapabilityListener('reachable', async () =>
+        this.reachable = await this.migrateCapabilities();
+        if (!this.deferredCapabilities.has('reachable') && this.hasCapability('reachable'))
         {
-            // Keep Homey's quick action from overriding the scanner-managed state.
-            await this.setCapabilityValue('reachable', this.reachable);
-        });
+            const currentReachable = this.getCapabilityValue('reachable');
+            if (typeof currentReachable === 'boolean')
+            {
+                this.reachable = currentReachable;
+            }
+
+            this.registerCapabilityListener('reachable', async () =>
+            {
+                // Keep Homey's quick action from overriding the scanner-managed state.
+                await this.setCapabilityValue('reachable', this.reachable);
+            });
+        }
         this.applySettings(this.getSettings());
         this.scanDevice();
     }
@@ -60,20 +69,86 @@ class TcpIpDevice extends Homey.Device
         if (!hasReachable)
         {
             await this.addCapability('reachable');
-        }
-        if (typeof previousReachable === 'boolean'
-            && this.getCapabilityValue('reachable') !== previousReachable)
-        {
-            await this.setCapabilityValue('reachable', previousReachable);
+            this.deferredCapabilities.add('reachable');
         }
 
-        for (const capabilityId of ['alarm_offline', 'ip_present', 'onoff'])
+        for (const capabilityId of ['alarm_offline', 'onoff'])
         {
-            if (this.hasCapability(capabilityId))
+            if (!this.hasCapability(capabilityId))
             {
-                await this.removeCapability(capabilityId);
+                await this.addCapability(capabilityId);
+                this.deferredCapabilities.add(capabilityId);
             }
         }
+
+        await this.configureLegacyCapability('alarm_offline');
+        await this.configureLegacyCapability('onoff');
+
+        if (typeof previousReachable === 'boolean')
+        {
+            await this.setReachabilityCapabilities(previousReachable);
+        }
+
+        if (this.hasCapability('ip_present'))
+        {
+            await this.removeCapability('ip_present');
+        }
+
+        return previousReachable;
+    }
+
+    async configureLegacyCapability(capabilityId)
+    {
+        if (this.deferredCapabilities.has(capabilityId) || !this.hasCapability(capabilityId))
+        {
+            return;
+        }
+
+        let options;
+        try
+        {
+            options = this.getCapabilityOptions(capabilityId);
+        }
+        catch (err)
+        {
+            this.log(`Deferring ${capabilityId} options until the capability is available`);
+            return;
+        }
+
+        const expectedOptions = {
+            uiComponent: null,
+            preventInsights: true,
+            ...(capabilityId === 'onoff' ? { getable: true, setable: false } : {}),
+        };
+        const needsUpdate = Object.entries(expectedOptions)
+            .some(([option, value]) => options[option] !== value);
+
+        if (needsUpdate)
+        {
+            await this.setCapabilityOptions(capabilityId, {
+                ...options,
+                ...expectedOptions,
+            });
+        }
+    }
+
+    async setReachabilityCapabilities(reachable)
+    {
+        const values = {
+            reachable,
+            alarm_offline: !reachable,
+            onoff: reachable,
+        };
+
+        await Promise.all(Object.entries(values).map(async ([capabilityId, value]) =>
+        {
+            if (!this.deferredCapabilities.has(capabilityId)
+                && this.hasCapability(capabilityId)
+                && this.getCapabilityValue(capabilityId) !== value)
+            {
+                await this.setCapabilityValue(capabilityId, value);
+            }
+        }));
     }
 
     applySettings(settings)
@@ -275,7 +350,7 @@ class TcpIpDevice extends Homey.Device
         {
             this.homey.app.updateLog('**** Device came Online ' + this.getName() + ' - ' + this.host);
             this.reachable = true;
-            await this.setCapabilityValue('reachable', true);
+            await this.setReachabilityCapabilities(true);
             await this.driver.device_came_online(this);
         }
         else
@@ -290,7 +365,7 @@ class TcpIpDevice extends Homey.Device
         {
             this.homey.app.updateLog('!!!! Device went Offline ' + this.getName() + ' - ' + this.host);
             this.reachable = false;
-            await this.setCapabilityValue('reachable', false);
+            await this.setReachabilityCapabilities(false);
             await this.driver.device_went_offline(this);
         }
         else
