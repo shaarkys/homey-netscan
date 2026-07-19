@@ -51,6 +51,19 @@ class NetScanApp extends Homey.App
             return !args.device.reachable;
         });
 
+        for (const conditionId of ['ip_device_state_for', 'device_state_for'])
+        {
+            const condition = this.homey.flow.getConditionCard(conditionId);
+            condition.registerRunListener(async (args) =>
+            {
+                return args.device.hasReachabilityStateFor(
+                    args.reachability_state,
+                    args.duration,
+                    args.duration_unit,
+                );
+            });
+        }
+
         this.homey.on('cpuwarn', () =>
         {
             const drivers = this.homey.drivers.getDrivers();

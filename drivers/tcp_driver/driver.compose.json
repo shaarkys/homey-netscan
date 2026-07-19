@@ -44,6 +44,11 @@
 			"preventInsights": true
 		},
 		"onoff": {
+			"title": {
+				"en": "Online state (legacy)",
+				"nl": "Online-status (verouderd)",
+				"de": "Online-Status (veraltet)"
+			},
 			"uiComponent": null,
 			"preventInsights": true,
 			"getable": true,

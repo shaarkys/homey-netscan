@@ -26,23 +26,89 @@ class TcpIpDevice extends Homey.Device
             {
                 this.reachable = currentReachable;
             }
+
+            this.registerReadOnlyCapabilityListener('reachable');
         }
 
         if (!this.deferredCapabilities.has('onoff') && this.hasCapability('onoff'))
         {
-            this.registerCapabilityListener('onoff', async () =>
-            {
-                // Keep Homey's legacy quick action from overriding the scanner-managed state.
-                this.homey.setTimeout(() =>
-                {
-                    this.setCapabilityValue('onoff', this.reachable === true)
-                        .catch((err) => this.error('Could not restore the read-only reachability state:', err));
-                }, 0);
-            });
+            this.registerReadOnlyCapabilityListener('onoff');
         }
 
+        await this.initializeReachabilityTracking();
         this.applySettings(this.getSettings());
         this.scanDevice();
+    }
+
+    registerReadOnlyCapabilityListener(capabilityId)
+    {
+        this.registerCapabilityListener(capabilityId, async () =>
+        {
+            // Homey may still dispatch a request from a cached quick action; restore the measured state.
+            this.homey.setTimeout(() =>
+            {
+                this.setCapabilityValue(capabilityId, this.reachable === true)
+                    .catch((err) => this.error(`Could not restore read-only ${capabilityId}:`, err));
+            }, 0);
+        });
+    }
+
+    async initializeReachabilityTracking()
+    {
+        const now = Date.now();
+        const storedState = this.getStoreValue('reachabilityState');
+        const storedChangedAt = Number(this.getStoreValue('reachabilityChangedAt'));
+
+        if (typeof this.reachable === 'boolean'
+            && storedState === this.reachable
+            && Number.isFinite(storedChangedAt)
+            && storedChangedAt > 0
+            && storedChangedAt <= now)
+        {
+            this.reachabilityChangedAt = storedChangedAt;
+            return;
+        }
+
+        this.reachabilityChangedAt = now;
+        if (typeof this.reachable === 'boolean')
+        {
+            await this.persistReachabilityTracking(this.reachable);
+        }
+    }
+
+    async persistReachabilityTracking(reachable)
+    {
+        this.reachabilityChangedAt = Date.now();
+        try
+        {
+            await Promise.all([
+                this.setStoreValue('reachabilityState', reachable),
+                this.setStoreValue('reachabilityChangedAt', this.reachabilityChangedAt),
+            ]);
+        }
+        catch (err)
+        {
+            this.error('Could not persist the reachability duration:', err);
+        }
+    }
+
+    hasReachabilityStateFor(state, duration, unit)
+    {
+        const expectedReachable = state === 'online';
+        if ((state !== 'online' && state !== 'offline') || this.reachable !== expectedReachable)
+        {
+            return false;
+        }
+
+        const amount = Number(duration);
+        const multiplier = unit === 'minutes' ? 60 * 1000 : unit === 'seconds' ? 1000 : null;
+        if (!Number.isFinite(amount) || amount < 0 || multiplier === null
+            || !Number.isFinite(this.reachabilityChangedAt))
+        {
+            return false;
+        }
+
+        return Date.now() - this.reachabilityChangedAt >= amount * multiplier;
     }
 
     async migrateCapabilities()
@@ -129,10 +195,28 @@ class TcpIpDevice extends Homey.Device
         const expectedOptions = {
             uiComponent: null,
             preventInsights: true,
-            ...(capabilityId === 'onoff' ? { getable: true, setable: false } : {}),
+            ...(capabilityId === 'onoff' ? {
+                getable: true,
+                setable: false,
+                title: {
+                    en: 'Online state (legacy)',
+                    nl: 'Online-status (verouderd)',
+                    de: 'Online-Status (veraltet)',
+                },
+            } : {}),
         };
         const needsUpdate = Object.entries(expectedOptions)
-            .some(([option, value]) => options[option] !== value);
+            .some(([option, value]) =>
+            {
+                if (value && typeof value === 'object')
+                {
+                    const currentValue = options[option] || {};
+                    return !Object.entries(value)
+                        .every(([key, nestedValue]) => currentValue[key] === nestedValue);
+                }
+
+                return options[option] !== value;
+            });
 
         if (needsUpdate)
         {
@@ -456,6 +540,7 @@ class TcpIpDevice extends Homey.Device
         {
             this.homey.app.updateLog('**** Device came Online ' + this.getName() + ' - ' + this.host);
             this.reachable = true;
+            await this.persistReachabilityTracking(true);
             await this.setReachabilityCapabilities(true);
             await this.driver.device_came_online(this);
         }
@@ -471,6 +556,7 @@ class TcpIpDevice extends Homey.Device
         {
             this.homey.app.updateLog('!!!! Device went Offline ' + this.getName() + ' - ' + this.host);
             this.reachable = false;
+            await this.persistReachabilityTracking(false);
             await this.setReachabilityCapabilities(false);
             await this.driver.device_went_offline(this);
         }
