@@ -1,7 +1,6 @@
 "use strict";
 
-// The IP driver works by connecting to a port and checking which error response one gets.
-// We have to assume a port is closed, this assumption is corrected if a device appears to have the port open anyway.
+// The IP driver can use ARP for local IPv4 devices and fall back to the legacy TCP response check.
 
 const Homey = require('homey');
 

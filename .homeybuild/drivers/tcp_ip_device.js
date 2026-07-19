@@ -3,6 +3,9 @@
 const Homey = require('homey');
 const net = require('net');
 
+const ARP_TIMEOUT = 3000;
+const IP_PROBE_METHODS = new Set(['automatic', 'arp', 'tcp']);
+
 class TcpIpDevice extends Homey.Device
 {
     async onInit()
@@ -23,13 +26,21 @@ class TcpIpDevice extends Homey.Device
             {
                 this.reachable = currentReachable;
             }
+        }
 
-            this.registerCapabilityListener('reachable', async () =>
+        if (!this.deferredCapabilities.has('onoff') && this.hasCapability('onoff'))
+        {
+            this.registerCapabilityListener('onoff', async () =>
             {
-                // Keep Homey's quick action from overriding the scanner-managed state.
-                await this.setCapabilityValue('reachable', this.reachable);
+                // Keep Homey's legacy quick action from overriding the scanner-managed state.
+                this.homey.setTimeout(() =>
+                {
+                    this.setCapabilityValue('onoff', this.reachable === true)
+                        .catch((err) => this.error('Could not restore the read-only reachability state:', err));
+                }, 0);
             });
         }
+
         this.applySettings(this.getSettings());
         this.scanDevice();
     }
@@ -164,6 +175,10 @@ class TcpIpDevice extends Homey.Device
             this.port = Number(settings.tcp_port);
         }
 
+        this.probeMethod = this.port === null && IP_PROBE_METHODS.has(settings.probe_method)
+            ? settings.probe_method
+            : 'tcp';
+
         const interval = Number(settings.host_check_interval);
         this.checkInterval = 1000 * (Number.isFinite(interval) && interval >= 15 ? interval : 15);
 
@@ -189,6 +204,12 @@ class TcpIpDevice extends Homey.Device
 
     async onSettings({ newSettings })
     {
+        const host = String(newSettings.host || '').trim();
+        if (newSettings.probe_method === 'arp' && net.isIP(host) !== 4)
+        {
+            throw new Error(this.homey.__('errors.arp_ipv4_required'));
+        }
+
         this.applySettings(newSettings);
         this.cancelCurrentScan();
         this.scanDevice();
@@ -252,6 +273,81 @@ class TcpIpDevice extends Homey.Device
         }
 
         const generation = ++this.scanGeneration;
+        if (this.port === null && this.probeMethod !== 'tcp')
+        {
+            this.scanWithArp(generation);
+            return;
+        }
+
+        this.scanWithTcp(generation);
+    }
+
+    scanWithArp(generation)
+    {
+        let finished = false;
+        const automatic = this.probeMethod === 'automatic';
+
+        const complete = (online, error) =>
+        {
+            if (finished || this.stopped || generation !== this.scanGeneration)
+            {
+                return;
+            }
+
+            finished = true;
+            if (this.cancelCheck)
+            {
+                this.homey.clearTimeout(this.cancelCheck);
+                this.cancelCheck = null;
+            }
+
+            if (online)
+            {
+                this.completeScan(true, generation).catch((err) => this.error(err));
+                return;
+            }
+
+            if (error)
+            {
+                this.homey.app.updateLog(`${this.getName()} - ${this.host} ARP check failed: `
+                    + (error.code || error.message || error));
+            }
+
+            if (automatic)
+            {
+                this.homey.app.updateLog(`${this.getName()} - ${this.host} falling back to TCP response check`);
+                this.scanWithTcp(generation);
+                return;
+            }
+
+            this.completeScan(false, generation).catch((err) => this.error(err));
+        };
+
+        if (net.isIP(this.host) !== 4)
+        {
+            complete(false, new Error('ARP requires an IPv4 address'));
+            return;
+        }
+
+        if (!this.homey.arp || typeof this.homey.arp.getMAC !== 'function')
+        {
+            complete(false, new Error('ARP is not available on this Homey'));
+            return;
+        }
+
+        this.homey.app.updateLog(`Checking ARP device ${this.getName()} - ${this.host}`);
+        this.cancelCheck = this.homey.setTimeout(() =>
+        {
+            complete(false, new Error('ARP timeout'));
+        }, Math.min(this.hostTimeout, ARP_TIMEOUT));
+
+        this.homey.arp.getMAC(this.host)
+            .then((mac) => complete(typeof mac === 'string' && mac.length > 0))
+            .catch((err) => complete(false, err));
+    }
+
+    scanWithTcp(generation)
+    {
         const client = new net.Socket();
         let finished = false;
         this.client = client;
@@ -281,18 +377,7 @@ class TcpIpDevice extends Homey.Device
                 this.client = null;
             }
 
-            try
-            {
-                await this.recordObservation(online);
-            }
-            catch (err)
-            {
-                this.error('Could not update device state:', err);
-            }
-            finally
-            {
-                this.scheduleNextScan(generation);
-            }
+            await this.completeScan(online, generation);
         };
 
         client.once('connect', () =>
@@ -321,6 +406,27 @@ class TcpIpDevice extends Homey.Device
         {
             this.homey.app.updateLog(this.getName() + ' - ' + target + ' connection error ' + err.message);
             complete(false).catch((completeError) => this.error(completeError));
+        }
+    }
+
+    async completeScan(online, generation)
+    {
+        if (this.stopped || generation !== this.scanGeneration)
+        {
+            return;
+        }
+
+        try
+        {
+            await this.recordObservation(online);
+        }
+        catch (err)
+        {
+            this.error('Could not update device state:', err);
+        }
+        finally
+        {
+            this.scheduleNextScan(generation);
         }
     }
 

@@ -4,6 +4,9 @@
     "send": "Protokoll senden",
     "logLevel": "Protokollstufe"
   },
+  "errors": {
+    "arp_ipv4_required": "Die ARP-Erkennung erfordert eine numerische IPv4-Adresse."
+  },
   "pair": {
     "configuration" : {
       "name": "Bezeichnung",
@@ -11,7 +14,7 @@
       "tcp_port" : "TCP-Port",
       "configure" : "Konfigurieren",
       "explanation" : "Überwachung eines TCP-Ports an einer spezifischen IP-Adresse.",
-      "ip_explanation" : "Überwachung eines Geräts an einer spezifischen IP-Adresse.",
+      "ip_explanation" : "Überwachung eines Geräts an einer bestimmten IP-Adresse mit ARP und TCP-Rückfall.",
       "tcp_port_invalid" : "Der angegebene TCP-Port muss zwischen 1 und 65535 liegen.",
       "host_required" : "Geben Sie eine IP-Adresse oder einen Hostnamen ein."
     }

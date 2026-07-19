@@ -6,10 +6,10 @@
         "de": "Netzwerkerreichbarkeit"
     },
     "getable": true,
-    "setable": true,
+    "setable": false,
     "insights": true,
     "uiComponent": "sensor",
-    "uiQuickAction": true,
+    "uiQuickAction": false,
     "insightsTitleTrue": {
         "en": "Device is reachable",
         "nl": "Apparaat is bereikbaar",

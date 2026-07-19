@@ -339,6 +339,47 @@
               }
             },
             {
+              "id": "probe_method",
+              "hint": {
+                "en": "Automatic uses ARP first and falls back to the legacy TCP response check.",
+                "nl": "Automatisch gebruikt eerst ARP en valt terug op de bestaande TCP-responscontrole.",
+                "de": "Automatisch verwendet zuerst ARP und greift dann auf die bisherige TCP-Antwortprüfung zurück."
+              },
+              "type": "dropdown",
+              "value": "tcp",
+              "label": {
+                "en": "Detection method",
+                "nl": "Detectiemethode",
+                "de": "Erkennungsmethode"
+              },
+              "values": [
+                {
+                  "id": "automatic",
+                  "label": {
+                    "en": "Automatic (ARP, then TCP)",
+                    "nl": "Automatisch (ARP, daarna TCP)",
+                    "de": "Automatisch (ARP, dann TCP)"
+                  }
+                },
+                {
+                  "id": "arp",
+                  "label": {
+                    "en": "ARP (local IPv4 only)",
+                    "nl": "ARP (alleen lokaal IPv4)",
+                    "de": "ARP (nur lokales IPv4)"
+                  }
+                },
+                {
+                  "id": "tcp",
+                  "label": {
+                    "en": "TCP response (legacy)",
+                    "nl": "TCP-respons (bestaand)",
+                    "de": "TCP-Antwort (bisherig)"
+                  }
+                }
+              ]
+            },
+            {
               "id": "host_check_interval",
               "hint": "Time between checks for the device",
               "type": "number",
@@ -569,10 +610,10 @@
         "de": "Netzwerkerreichbarkeit"
       },
       "getable": true,
-      "setable": true,
+      "setable": false,
       "insights": true,
       "uiComponent": "sensor",
-      "uiQuickAction": true,
+      "uiQuickAction": false,
       "insightsTitleTrue": {
         "en": "Device is reachable",
         "nl": "Apparaat is bereikbaar",
