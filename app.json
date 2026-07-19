@@ -302,7 +302,9 @@
         },
         "onoff": {
           "uiComponent": null,
-          "preventInsights": true
+          "preventInsights": true,
+          "getable": true,
+          "setable": false
         }
       },
       "images": {
@@ -469,7 +471,9 @@
         },
         "onoff": {
           "uiComponent": null,
-          "preventInsights": true
+          "preventInsights": true,
+          "getable": true,
+          "setable": false
         }
       },
       "images": {
@@ -610,10 +614,10 @@
         "de": "Netzwerkerreichbarkeit"
       },
       "getable": true,
-      "setable": false,
+      "setable": true,
       "insights": true,
       "uiComponent": "sensor",
-      "uiQuickAction": false,
+      "uiQuickAction": true,
       "insightsTitleTrue": {
         "en": "Device is reachable",
         "nl": "Apparaat is bereikbaar",

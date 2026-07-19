@@ -26,23 +26,30 @@ class TcpIpDevice extends Homey.Device
             {
                 this.reachable = currentReachable;
             }
+
+            this.registerReadOnlyCapabilityListener('reachable');
         }
 
         if (!this.deferredCapabilities.has('onoff') && this.hasCapability('onoff'))
         {
-            this.registerCapabilityListener('onoff', async () =>
-            {
-                // Keep Homey's legacy quick action from overriding the scanner-managed state.
-                this.homey.setTimeout(() =>
-                {
-                    this.setCapabilityValue('onoff', this.reachable === true)
-                        .catch((err) => this.error('Could not restore the read-only reachability state:', err));
-                }, 0);
-            });
+            this.registerReadOnlyCapabilityListener('onoff');
         }
 
         this.applySettings(this.getSettings());
         this.scanDevice();
+    }
+
+    registerReadOnlyCapabilityListener(capabilityId)
+    {
+        this.registerCapabilityListener(capabilityId, async () =>
+        {
+            // Homey may still dispatch a request from a cached quick action; restore the measured state.
+            this.homey.setTimeout(() =>
+            {
+                this.setCapabilityValue(capabilityId, this.reachable === true)
+                    .catch((err) => this.error(`Could not restore read-only ${capabilityId}:`, err));
+            }, 0);
+        });
     }
 
     async migrateCapabilities()

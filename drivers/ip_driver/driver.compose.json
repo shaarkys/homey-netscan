@@ -45,7 +45,9 @@
         },
         "onoff": {
             "uiComponent": null,
-            "preventInsights": true
+            "preventInsights": true,
+            "getable": true,
+            "setable": false
         }
     },
     "images": {
