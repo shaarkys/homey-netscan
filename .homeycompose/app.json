@@ -18,9 +18,9 @@
     "xlarge": "/assets/images/xlarge.png"
   },
   "description": {
-    "en": "Watch devices on your local network by scanning for TCP ports",
-    "nl": "Houdt apparaten op uw netwerk in de gaten middels een TCP poort",
-    "de": "Überwachen Sie Geräte in Ihrem lokalen Netzwerk durch Scannen der TCP-Ports"
+    "en": "Track devices on your local network using ARP and TCP checks.",
+    "nl": "Volg apparaten op uw lokale netwerk door ARP- en TCP-controles.",
+    "de": "Überwachen Sie Ihre Geräte im lokalen Netzwerk durch ARP- und TCP-Prüfungen"
   },
   "contributors": {
     "developers": [
