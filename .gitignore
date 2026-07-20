@@ -11,3 +11,4 @@ build/
 
 # Added by Homey CLI
 /.homeybuild/
+AGENTS.md
