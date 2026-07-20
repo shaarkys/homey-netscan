@@ -73,7 +73,11 @@ The TCP port driver allows to watch a TCP port on a specified IP-address. Any er
 
 ### IP Address
 
-The IP Address driver can be used to detect a device by ip address. Since ICMP (ping) is prohibited on Homey, I did the next best thing: Check for a closed TCP port. With this method, the error "ECONNREFUSED" is assumed to be a possitive result for the device to be online.
+The IP Address driver can detect a device without requiring an open TCP port. New devices use automatic detection: Homey first attempts to resolve the device using ARP and falls back to checking for a response from a closed TCP port. Existing devices retain the legacy TCP response check unless the detection method is changed in the device's advanced settings.
+
+ARP detection is intended for numeric IPv4 addresses on the same local network as Homey. For hostnames, IPv6 addresses, routed networks, or separate VLANs, use automatic or TCP response detection.
+
+The reachability status is read-only and is updated exclusively by the configured network check.
 
 #### IP Address Triggers
 

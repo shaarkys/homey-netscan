@@ -14,8 +14,9 @@
     "tools"
   ],
   "images": {
-    "large": "assets/large.png",
-    "small": "assets/small.png"
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png",
+    "xlarge": "/assets/images/xlarge.png"
   },
   "description": {
     "en": "Watch devices on your local network by scanning for TCP ports",
@@ -68,9 +69,9 @@
       "method": "post",
       "path": "/clearLog/"
     },
-    "SendInfoLog": {
+    "sendInfoLog": {
       "method": "post",
-      "path": "/SendInfoLog/"
+      "path": "/sendInfoLog/"
     }
   },
   "flow": {
@@ -205,6 +206,90 @@
         ]
       },
       {
+        "id": "ip_device_state_for",
+        "title": {
+          "en": "Device has been online or offline for a duration",
+          "nl": "Apparaat is gedurende een periode online of offline",
+          "de": "Gerät ist seit einer bestimmten Zeit online oder offline"
+        },
+        "titleFormatted": {
+          "en": "Device !{{is|is not}} [[reachability_state]] for at least [[duration]] [[duration_unit]]",
+          "nl": "Apparaat !{{is|is niet}} ten minste [[duration]] [[duration_unit]] [[reachability_state]]",
+          "de": "Gerät !{{ist|ist nicht}} seit mindestens [[duration]] [[duration_unit]] [[reachability_state]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ip_driver"
+          },
+          {
+            "name": "reachability_state",
+            "type": "dropdown",
+            "title": {
+              "en": "State",
+              "nl": "Status",
+              "de": "Status"
+            },
+            "values": [
+              {
+                "id": "online",
+                "title": {
+                  "en": "online",
+                  "nl": "online",
+                  "de": "online"
+                }
+              },
+              {
+                "id": "offline",
+                "title": {
+                  "en": "offline",
+                  "nl": "offline",
+                  "de": "offline"
+                }
+              }
+            ]
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration",
+              "nl": "Duur",
+              "de": "Dauer"
+            },
+            "min": 0
+          },
+          {
+            "name": "duration_unit",
+            "type": "dropdown",
+            "title": {
+              "en": "Unit",
+              "nl": "Eenheid",
+              "de": "Einheit"
+            },
+            "values": [
+              {
+                "id": "seconds",
+                "title": {
+                  "en": "seconds",
+                  "nl": "seconden",
+                  "de": "Sekunden"
+                }
+              },
+              {
+                "id": "minutes",
+                "title": {
+                  "en": "minutes",
+                  "nl": "minuten",
+                  "de": "Minuten"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
         "id": "ip_device_is_offline",
         "title": {
           "en": "Device is !{{offline|online}}",
@@ -232,6 +317,90 @@
             "type": "device",
             "name": "device",
             "filter": "driver_id=tcp_driver"
+          }
+        ]
+      },
+      {
+        "id": "device_state_for",
+        "title": {
+          "en": "Device has been online or offline for a duration",
+          "nl": "Apparaat is gedurende een periode online of offline",
+          "de": "Gerät ist seit einer bestimmten Zeit online oder offline"
+        },
+        "titleFormatted": {
+          "en": "Device !{{is|is not}} [[reachability_state]] for at least [[duration]] [[duration_unit]]",
+          "nl": "Apparaat !{{is|is niet}} ten minste [[duration]] [[duration_unit]] [[reachability_state]]",
+          "de": "Gerät !{{ist|ist nicht}} seit mindestens [[duration]] [[duration_unit]] [[reachability_state]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=tcp_driver"
+          },
+          {
+            "name": "reachability_state",
+            "type": "dropdown",
+            "title": {
+              "en": "State",
+              "nl": "Status",
+              "de": "Status"
+            },
+            "values": [
+              {
+                "id": "online",
+                "title": {
+                  "en": "online",
+                  "nl": "online",
+                  "de": "online"
+                }
+              },
+              {
+                "id": "offline",
+                "title": {
+                  "en": "offline",
+                  "nl": "offline",
+                  "de": "offline"
+                }
+              }
+            ]
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration",
+              "nl": "Duur",
+              "de": "Dauer"
+            },
+            "min": 0
+          },
+          {
+            "name": "duration_unit",
+            "type": "dropdown",
+            "title": {
+              "en": "Unit",
+              "nl": "Eenheid",
+              "de": "Einheit"
+            },
+            "values": [
+              {
+                "id": "seconds",
+                "title": {
+                  "en": "seconds",
+                  "nl": "seconden",
+                  "de": "Sekunden"
+                }
+              },
+              {
+                "id": "minutes",
+                "title": {
+                  "en": "minutes",
+                  "nl": "minuten",
+                  "de": "Minuten"
+                }
+              }
+            ]
           }
         ]
       },
@@ -268,10 +437,23 @@
       ],
       "class": "sensor",
       "capabilities": [
+        "reachable",
         "alarm_offline",
         "onoff"
       ],
       "capabilitiesOptions": {
+        "reachable": {
+          "titleTrue": {
+            "en": "Reachable",
+            "nl": "Bereikbaar",
+            "de": "Erreichbar"
+          },
+          "titleFalse": {
+            "en": "Not reachable",
+            "nl": "Niet bereikbaar",
+            "de": "Nicht erreichbar"
+          }
+        },
         "alarm_offline": {
           "titleTrue": {
             "en": "Offline",
@@ -282,10 +464,20 @@
             "en": "Online",
             "nl": "Online",
             "de": "Online"
-          }
+          },
+          "uiComponent": null,
+          "preventInsights": true
         },
         "onoff": {
-          "uiComponent": null
+          "title": {
+            "en": "Online state (legacy)",
+            "nl": "Online-status (verouderd)",
+            "de": "Online-Status (veraltet)"
+          },
+          "uiComponent": null,
+          "preventInsights": true,
+          "getable": true,
+          "setable": false
         }
       },
       "images": {
@@ -295,10 +487,6 @@
       "pair": [
         {
           "id": "configure_ip"
-        },
-        {
-          "id": "add_sockets",
-          "template": "add_devices"
         }
       ],
       "settings": [
@@ -312,7 +500,11 @@
           "children": [
             {
               "id": "host",
-              "hint": "IP address of the device to check",
+              "hint": {
+                "en": "IP address of the device to check",
+                "nl": "IP-adres van het te controleren apparaat",
+                "de": "IP-Adresse des zu überprüfenden Geräts"
+              },
               "type": "text",
               "value": "0.0.0.0",
               "label": {
@@ -322,10 +514,52 @@
               }
             },
             {
+              "id": "probe_method",
+              "hint": {
+                "en": "Automatic uses ARP first and falls back to the legacy TCP response check.",
+                "nl": "Automatisch gebruikt eerst ARP en valt terug op de bestaande TCP-responscontrole.",
+                "de": "Automatisch verwendet zuerst ARP und greift dann auf die bisherige TCP-Antwortprüfung zurück."
+              },
+              "type": "dropdown",
+              "value": "tcp",
+              "label": {
+                "en": "Detection method",
+                "nl": "Detectiemethode",
+                "de": "Erkennungsmethode"
+              },
+              "values": [
+                {
+                  "id": "automatic",
+                  "label": {
+                    "en": "Automatic (ARP, then TCP)",
+                    "nl": "Automatisch (ARP, daarna TCP)",
+                    "de": "Automatisch (ARP, dann TCP)"
+                  }
+                },
+                {
+                  "id": "arp",
+                  "label": {
+                    "en": "ARP (local IPv4 only)",
+                    "nl": "ARP (alleen lokaal IPv4)",
+                    "de": "ARP (nur lokales IPv4)"
+                  }
+                },
+                {
+                  "id": "tcp",
+                  "label": {
+                    "en": "TCP response (legacy)",
+                    "nl": "TCP-respons (bestaand)",
+                    "de": "TCP-Antwort (bisherig)"
+                  }
+                }
+              ]
+            },
+            {
               "id": "host_check_interval",
               "hint": "Time between checks for the device",
               "type": "number",
               "value": 15,
+              "min": 15,
               "units": "seconds",
               "label": {
                 "en": "Check Interval",
@@ -338,6 +572,7 @@
               "hint": "Time to wait before reporting the device is offline",
               "type": "number",
               "value": 10,
+              "min": 10,
               "units": "seconds",
               "label": {
                 "en": "Check Timeout",
@@ -350,6 +585,7 @@
               "hint": "Number of unreachable failures before reporting the device is offline",
               "type": "number",
               "value": 1,
+              "min": 1,
               "label": {
                 "en": "Unreachable checks",
                 "nl": "Onbereikbare controles",
@@ -375,10 +611,23 @@
       ],
       "class": "sensor",
       "capabilities": [
+        "reachable",
         "alarm_offline",
         "onoff"
       ],
       "capabilitiesOptions": {
+        "reachable": {
+          "titleTrue": {
+            "en": "Reachable",
+            "nl": "Bereikbaar",
+            "de": "Erreichbar"
+          },
+          "titleFalse": {
+            "en": "Not reachable",
+            "nl": "Niet bereikbaar",
+            "de": "Nicht erreichbar"
+          }
+        },
         "alarm_offline": {
           "titleTrue": {
             "en": "Offline",
@@ -389,10 +638,20 @@
             "en": "Online",
             "nl": "Online",
             "de": "Online"
-          }
+          },
+          "uiComponent": null,
+          "preventInsights": true
         },
         "onoff": {
-          "uiComponent": null
+          "title": {
+            "en": "Online state (legacy)",
+            "nl": "Online-status (verouderd)",
+            "de": "Online-Status (veraltet)"
+          },
+          "uiComponent": null,
+          "preventInsights": true,
+          "getable": true,
+          "setable": false
         }
       },
       "images": {
@@ -402,10 +661,6 @@
       "pair": [
         {
           "id": "configure_ip"
-        },
-        {
-          "id": "add_sockets",
-          "template": "add_devices"
         }
       ],
       "settings": [
@@ -441,6 +696,7 @@
               },
               "type": "number",
               "value": 9090,
+              "min": 1,
               "label": {
                 "en": "TCP port",
                 "nl": "TCP poort",
@@ -457,6 +713,7 @@
               },
               "type": "number",
               "value": 15,
+              "min": 15,
               "units": "seconds",
               "label": {
                 "en": "Check Interval",
@@ -473,6 +730,7 @@
               },
               "type": "number",
               "value": 10,
+              "min": 10,
               "units": "seconds",
               "label": {
                 "en": "Check Timeout",
@@ -489,6 +747,7 @@
               },
               "type": "number",
               "value": 1,
+              "min": 1,
               "label": {
                 "en": "Unreachable checks",
                 "nl": "Onbereikbare controles",
@@ -505,13 +764,14 @@
     "alarm_offline": {
       "type": "boolean",
       "title": {
-        "en": "IP reachable",
-        "nl": "IP bereikbaar",
-        "de": "IP erreichbar"
+        "en": "IP not reachable",
+        "nl": "IP niet bereikbaar",
+        "de": "IP nicht erreichbar"
       },
       "getable": true,
       "setable": false,
       "insights": true,
+      "uiComponent": null,
       "insightsTitleFalse": {
         "en": "IP is reachable",
         "nl": "IP is bereikbaar",
@@ -522,7 +782,31 @@
         "nl": "IP niet bereikbaar",
         "de": "IP ist nicht erreichbar"
       },
-      "icon": "/assets/sonar.svg"
+      "icon": "/assets/connection-status.svg"
+    },
+    "reachable": {
+      "type": "boolean",
+      "title": {
+        "en": "Network reachability",
+        "nl": "Netwerkbereikbaarheid",
+        "de": "Netzwerkerreichbarkeit"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": true,
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
+      "insightsTitleTrue": {
+        "en": "Device is reachable",
+        "nl": "Apparaat is bereikbaar",
+        "de": "Gerät ist erreichbar"
+      },
+      "insightsTitleFalse": {
+        "en": "Device is not reachable",
+        "nl": "Apparaat is niet bereikbaar",
+        "de": "Gerät ist nicht erreichbar"
+      },
+      "icon": "/assets/connection-status.svg"
     }
   }
 }

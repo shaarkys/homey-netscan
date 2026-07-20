@@ -49,6 +49,85 @@
             "args": []
         },
         {
+            "id": "device_state_for",
+            "title": {
+                "en": "Device has been online or offline for a duration",
+                "nl": "Apparaat is gedurende een periode online of offline",
+                "de": "Gerät ist seit einer bestimmten Zeit online oder offline"
+            },
+            "titleFormatted": {
+                "en": "Device !{{is|is not}} [[reachability_state]] for at least [[duration]] [[duration_unit]]",
+                "nl": "Apparaat !{{is|is niet}} ten minste [[duration]] [[duration_unit]] [[reachability_state]]",
+                "de": "Gerät !{{ist|ist nicht}} seit mindestens [[duration]] [[duration_unit]] [[reachability_state]]"
+            },
+            "args": [
+                {
+                    "name": "reachability_state",
+                    "type": "dropdown",
+                    "title": {
+                        "en": "State",
+                        "nl": "Status",
+                        "de": "Status"
+                    },
+                    "values": [
+                        {
+                            "id": "online",
+                            "title": {
+                                "en": "online",
+                                "nl": "online",
+                                "de": "online"
+                            }
+                        },
+                        {
+                            "id": "offline",
+                            "title": {
+                                "en": "offline",
+                                "nl": "offline",
+                                "de": "offline"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "duration",
+                    "type": "number",
+                    "title": {
+                        "en": "Duration",
+                        "nl": "Duur",
+                        "de": "Dauer"
+                    },
+                    "min": 0
+                },
+                {
+                    "name": "duration_unit",
+                    "type": "dropdown",
+                    "title": {
+                        "en": "Unit",
+                        "nl": "Eenheid",
+                        "de": "Einheit"
+                    },
+                    "values": [
+                        {
+                            "id": "seconds",
+                            "title": {
+                                "en": "seconds",
+                                "nl": "seconden",
+                                "de": "Sekunden"
+                            }
+                        },
+                        {
+                            "id": "minutes",
+                            "title": {
+                                "en": "minutes",
+                                "nl": "minuten",
+                                "de": "Minuten"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "id": "device_is_offline",
             "title": {
                 "en": "Device is !{{offline|online}}",

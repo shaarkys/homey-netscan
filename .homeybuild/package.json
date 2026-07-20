@@ -4,10 +4,10 @@
     "description": "Adds support to Homey to detect network devives",
     "main": "app.js",
     "dependencies": {
-        "nodemailer": "^6.7.2"
+        "nodemailer": "^9.0.3"
     },
     "devDependencies": {
-        "homey": "^3.7.15"
+        "homey": "^4.4.1"
     },
     "repository": {
         "type": "git",
@@ -20,6 +20,6 @@
     },
     "homepage": "https://github.com/AdyRock/com.netscan#readme",
     "engines": {
-        "node": ">=8"
+        "node": ">=12"
     }
 }

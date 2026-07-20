@@ -1,13 +1,14 @@
 {
     "type": "boolean",
     "title": {
-        "en": "IP reachable",
-        "nl": "IP bereikbaar",
-        "de": "IP erreichbar"
+        "en": "IP not reachable",
+        "nl": "IP niet bereikbaar",
+        "de": "IP nicht erreichbar"
     },
     "getable": true,
     "setable": false,
     "insights": true,
+    "uiComponent": null,
     "insightsTitleFalse": {
         "en": "IP is reachable",
         "nl": "IP is bereikbaar",
@@ -17,7 +18,6 @@
         "en": "IP not reachable",
         "nl": "IP niet bereikbaar",
         "de": "IP ist nicht erreichbar"
-
     },
-    "icon": "/assets/sonar.svg"
+    "icon": "/assets/connection-status.svg"
 }

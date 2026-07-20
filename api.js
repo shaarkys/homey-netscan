@@ -1,15 +1,15 @@
 /*jslint node: true */
 module.exports = {
-    async getLog({ homey, query })
+    async getLog({ homey })
     {
         return homey.app.diagLog;
     },
-    async clearLog({ homey, query })
+    async clearLog({ homey })
     {
         homey.app.diagLog = "";
         return 'OK';
     },
-    async SendInfoLog({ homey, query })
+    async sendInfoLog({ homey })
     {
         return homey.app.sendLog('infoLog');
     },

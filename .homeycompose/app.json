@@ -13,8 +13,9 @@
 		"tools"
 	],
 	"images": {
-		"large": "assets/large.png",
-		"small": "assets/small.png"
+		"large": "/assets/images/large.png",
+		"small": "/assets/images/small.png",
+		"xlarge": "/assets/images/xlarge.png"
 	},
 	"description": {
 		"en": "Watch devices on your local network by scanning for TCP ports",
@@ -67,9 +68,9 @@
 			"method": "post",
 			"path": "/clearLog/"
 		},
-		"SendInfoLog": {
+		"sendInfoLog": {
 			"method": "post",
-			"path": "/SendInfoLog/"
+			"path": "/sendInfoLog/"
 		}
 	}
 }
