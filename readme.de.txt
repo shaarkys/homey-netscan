@@ -1,4 +1,5 @@
-Wenn Du wissen musst, wann ein Gerät ein- oder ausgeschaltet wurde oder ein Smartphone nach Hause gekommen ist oder verlassen hat, dann ist die Net Scan App genau das Richtige für Dich.
-Stelle sicher, dass das Gerät eine feste IP-Adresse hat, und die App prüft, ob es im Netzwerk verfügbar ist.
+Möchten Sie wissen, wann ein Gerät online oder offline ist oder wann sich ein Smartphone mit Ihrem Heimnetzwerk verbindet beziehungsweise die Verbindung trennt? Net Scan überwacht die Erreichbarkeit Ihrer Netzwerkgeräte und eignet sich beispielsweise für eine automatische Zuhause-/Unterwegs-Erkennung.
 
-Diese App wurde ursprünglich von Terry Hendrix entwickelt.
+Stellen Sie sicher, dass das Gerät eine feste IP-Adresse besitzt. Net Scan prüft dann regelmäßig, ob es in Ihrem Netzwerk erreichbar ist.
+
+Hinweis: Manche Geräte trennen sich bei Inaktivität vom Netzwerk. Dadurch können falsche Offline-Meldungen entstehen.
