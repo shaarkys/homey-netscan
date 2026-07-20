@@ -43,5 +43,8 @@
   },
   "2.1.0": {
     "en": "Added ARP-first reachability, Probe Time Insights, duration Flow conditions and connection-tested pairing; improved status compatibility and logging, and removed Send Log and many others updates, details on forum."
+  },
+  "2.1.1": {
+    "en": "Added ARP-first reachability, Probe Time Insights, duration Flow conditions and connection-tested pairing; improved status compatibility and logging, and removed Send Log and many others updates, details on forum."
   }
 }
