@@ -39,6 +39,9 @@
     "en": "Added German translations thanks to Dirk Göbel"
   },
   "2.0.10": {
-	"en": "Fixed dutch translations."
+    "en": "Fixed dutch translations."
+  },
+  "2.1.0": {
+    "en": "Added ARP-first reachability, Probe Time Insights, duration Flow conditions and connection-tested pairing; improved status compatibility and logging, and removed Send Log and many others updates, details on forum."
   }
 }
