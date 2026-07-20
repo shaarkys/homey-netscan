@@ -50,15 +50,15 @@
   "contributing": {
     "donate": {
       "paypal": {
-        "username": "adyrock"
+        "username": "bkubesa"
       }
     }
   },
-  "support": "https://github.com/AdyRock/homey-netscan/issues",
+  "support": "https://github.com/shaarkys/homey-netscan/issues",
   "bugs": {
-    "url": "https://github.com/AdyRock/homey-netscan/issues"
+    "url": "https://github.com/shaarkys/homey-netscan/issues"
   },
-  "source": "https://github.com/AdyRock/homey-netscan",
+  "source": "https://github.com/shaarkys/homey-netscan",
   "homeyCommunityTopicId": 47454,
   "api": {
     "getLog": {

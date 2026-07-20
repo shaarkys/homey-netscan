@@ -1,76 +1,76 @@
 {
-	"id": "com.netscan",
-	"version": "2.0.10",
-	"name": {
-		"en": "Net Scan",
-		"nl": "Net Scan"
-	},
-	"platforms": [
-		"local"
-	  ],
-		"category": [
-		"internet",
-		"tools"
-	],
-	"images": {
-		"large": "/assets/images/large.png",
-		"small": "/assets/images/small.png",
-		"xlarge": "/assets/images/xlarge.png"
-	},
-	"description": {
-		"en": "Watch devices on your local network by scanning for TCP ports",
-		"nl": "Houdt apparaten op uw netwerk in de gaten middels een TCP poort",
-		"de": "Überwachen Sie Geräte in Ihrem lokalen Netzwerk durch Scannen der TCP-Ports"
-	},
-	"contributors": {
-		"developers": [
-			{
-				"name": "Terry Hendrix",
-				"email": "terryhendrix90@gmail.com"
-			},
-			{
-				"name": "Adrian Rockall",
-				"email": "ady@rockall.plus.com"
-			}
-		],
-		"translators": [
-			{
-				"name": "DE- Dirk Göbel"
-			}
-		]
-	},
-	"compatibility": ">=5.0.0",
-	"sdk": 3,
-	"brandColor": "#FF7D4B",
-	"author": {
-		"name": "Adrian Rockall",
-		"email": "ady@rockall.plus.com"
-	},
-	"contributing": {
-		"donate": {
-			"paypal": {
-				"username": "adyrock"
-			}
-		}
-	},
-	"support": "https://github.com/AdyRock/homey-netscan/issues",
-	"bugs": {
-		"url": "https://github.com/AdyRock/homey-netscan/issues"
-	},
-	"source": "https://github.com/AdyRock/homey-netscan",
-	"homeyCommunityTopicId": 47454,
-	"api": {
-		"getLog": {
-			"method": "get",
-			"path": "/getLog/"
-		},
-		"clearLog": {
-			"method": "post",
-			"path": "/clearLog/"
-		},
-		"sendInfoLog": {
-			"method": "post",
-			"path": "/sendInfoLog/"
-		}
-	}
+  "id": "com.netscan",
+  "version": "2.0.10",
+  "name": {
+    "en": "Net Scan",
+    "nl": "Net Scan"
+  },
+  "platforms": [
+    "local"
+  ],
+  "category": [
+    "internet",
+    "tools"
+  ],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "description": {
+    "en": "Watch devices on your local network by scanning for TCP ports",
+    "nl": "Houdt apparaten op uw netwerk in de gaten middels een TCP poort",
+    "de": "Überwachen Sie Geräte in Ihrem lokalen Netzwerk durch Scannen der TCP-Ports"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Terry Hendrix",
+        "email": "terryhendrix90@gmail.com"
+      },
+      {
+        "name": "Adrian Rockall",
+        "email": "ady@rockall.plus.com"
+      }
+    ],
+    "translators": [
+      {
+        "name": "DE- Dirk Göbel"
+      }
+    ]
+  },
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#FF7D4B",
+  "author": {
+    "name": "Adrian Rockall",
+    "email": "ady@rockall.plus.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "bkubesa"
+      }
+    }
+  },
+  "support": "https://github.com/shaarkys/homey-netscan/issues",
+  "bugs": {
+    "url": "https://github.com/shaarkys/homey-netscan/issues"
+  },
+  "source": "https://github.com/shaarkys/homey-netscan",
+  "homeyCommunityTopicId": 47454,
+  "api": {
+    "getLog": {
+      "method": "get",
+      "path": "/getLog/"
+    },
+    "clearLog": {
+      "method": "post",
+      "path": "/clearLog/"
+    },
+    "sendInfoLog": {
+      "method": "post",
+      "path": "/sendInfoLog/"
+    }
+  }
 }
