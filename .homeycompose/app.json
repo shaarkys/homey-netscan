@@ -67,10 +67,6 @@
     "clearLog": {
       "method": "post",
       "path": "/clearLog/"
-    },
-    "sendInfoLog": {
-      "method": "post",
-      "path": "/sendInfoLog/"
     }
   }
 }

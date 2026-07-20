@@ -68,10 +68,6 @@
     "clearLog": {
       "method": "post",
       "path": "/clearLog/"
-    },
-    "sendInfoLog": {
-      "method": "post",
-      "path": "/sendInfoLog/"
     }
   },
   "flow": {
@@ -438,6 +434,7 @@
       "class": "sensor",
       "capabilities": [
         "reachable",
+        "measure_probe_time",
         "alarm_offline",
         "onoff"
       ],
@@ -612,6 +609,7 @@
       "class": "sensor",
       "capabilities": [
         "reachable",
+        "measure_probe_time",
         "alarm_offline",
         "onoff"
       ],
@@ -783,6 +781,27 @@
         "de": "IP ist nicht erreichbar"
       },
       "icon": "/assets/connection-status.svg"
+    },
+    "measure_probe_time": {
+      "type": "number",
+      "title": {
+        "en": "Probe time",
+        "nl": "Controleduur",
+        "de": "Prüfdauer"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "ms",
+        "nl": "ms",
+        "de": "ms"
+      },
+      "decimals": 1,
+      "min": 0,
+      "step": 0.1,
+      "uiComponent": "sensor",
+      "icon": "/assets/probe-time.svg"
     },
     "reachable": {
       "type": "boolean",

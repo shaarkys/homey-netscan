@@ -3,36 +3,12 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="lwsa.css">
-    <link rel="stylesheet" type="text/css" href="busy_indicator.css" />
-
-    <style type="text/css">
-        .fog_div {
-            display: none;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            height: 100%;
-            width: 100%;
-            z-index: 100;
-            background-color: rgba(30, 30, 30, 0.5);
-        }
-
-        #busybox.show {
-            display: block;
-        }
-    </style>
 
     <!-- The '/homey.js' script must be included in your settings view to work -->
     <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
-    <script type="text/javascript" src="busy_indicator.js"></script>
 </head>
 
 <body>
-    <!-- Busy indicator -->
-    <div id="busybox" class="fog_div">
-        <div></div>
-    </div>
-
     <!-- Tab links -->
     <div class="tab">
         <button class="tablinks" onclick="setPage(event, 'log')" id="defaultOpen">Log</button>
@@ -49,13 +25,13 @@
                     <option value=0>Errors Only</option>
                     <option value=1>Basic Information</option>
                 </select>
+                <p id="logLevelHint" data-i18n="settings.errorsOnlyHint"></p>
                 <P></P>
             </div>
         </fieldset>
         <fieldset>
             <p>
                 <button id="clearInfoLog" style="background-color:#a5510d;color:white;margin:5px 20px 5px 5px;" data-i18n="settings.clear"></button>
-                <button id="sendInfoLog" style="background-color:#0f9e16;color:white;margin:5px 20px 5px 5px;" data-i18n="settings.send"></button>
             </p>
             <div class="field row">
                 <textarea id="infoLog"></textarea>
@@ -64,14 +40,15 @@
     </div>
 
     <script type="text/javascript">
-        // Create the busy indicator
-        var busyi;
-        busyi = new busy_indicator(document.getElementById("busybox"), document.querySelector("#busybox div"));
-
         var infoLogElement = document.getElementById('infoLog');
         var logLevelElement = document.getElementById('logLevel');
+        var logLevelHintElement = document.getElementById('logLevelHint');
         var clearInfoLogElement = document.getElementById('clearInfoLog');
-        var sendInfoLogElement = document.getElementById('sendInfoLog');
+
+        function updateLogLevelHint()
+        {
+            logLevelHintElement.style.display = logLevelElement.value === '0' ? 'block' : 'none';
+        }
 
         // a method named 'onHomeyReady' must be present in your code
         async function onHomeyReady(Homey)
@@ -87,6 +64,7 @@
             {
                 const logLevel = await Homey.get('logLevel');
                 logLevelElement.value = logLevel.toString();
+                updateLogLevelHint();
                 infoLogElement.value = await Homey.api('GET', '/getLog/', {});
             }
             catch (err)
@@ -99,40 +77,11 @@
                 try
                 {
                     await Homey.set('logLevel', parseInt(logLevelElement.value, 10));
+                    updateLogLevelHint();
                 }
                 catch (err)
                 {
                     await Homey.alert(err);
-                }
-            });
-
-            sendInfoLogElement.addEventListener('click', async function()
-            {
-                if (infoLogElement.value.length < 15)
-                {
-                    await Homey.alert("No Data to send");
-                    return;
-                }
-
-                const confirmed = await Homey.confirm("Send the information log contents to the developer?", null);
-                if (!confirmed)
-                {
-                    return;
-                }
-
-                waitCursor(true);
-                try
-                {
-                    await Homey.api('POST', '/sendInfoLog/', {});
-                    await Homey.alert("Log sent successfully");
-                }
-                catch (err)
-                {
-                    await Homey.alert(err);
-                }
-                finally
-                {
-                    waitCursor(false);
                 }
             });
 
@@ -180,6 +129,7 @@
                 try
                 {
                     logLevelElement.value = await Homey.get('logLevel');
+                    updateLogLevelHint();
                 }
                 catch (err)
                 {
@@ -192,17 +142,6 @@
             }
         }
 
-        function waitCursor(On)
-        {
-            if (On)
-            {
-                busyi.show();
-            }
-            else
-            {
-                busyi.hide();
-            }
-        }
     </script>
 
 </body>

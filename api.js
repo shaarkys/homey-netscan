@@ -9,8 +9,4 @@ module.exports = {
         homey.app.diagLog = "";
         return 'OK';
     },
-    async sendInfoLog({ homey })
-    {
-        return homey.app.sendLog('infoLog');
-    },
 };

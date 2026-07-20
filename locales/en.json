@@ -1,7 +1,7 @@
 {
     "settings": {
         "clear": "Clear Log",
-        "send": "Send Log",
+        "errorsOnlyHint": "Only errors are being logged. Select Basic Information to include probe-time diagnostics.",
         "logLevel": "Log level"
     },
     "errors": {
@@ -10,9 +10,30 @@
     "pair": {
         "configuration": {
             "name": "Name",
+            "optional": "Optional",
+            "device_details": "Device details",
+            "host": "IP address or hostname",
             "ip_address": "IP address",
             "tcp_port": "TCP port",
             "configure": "Configure",
+            "add_device": "Add device",
+            "adding_device": "Adding device…",
+            "test_connection": "Test connection",
+            "testing_connection": "Testing connection…",
+            "test_success": "Connection successful. You can now add the device.",
+            "test_required": "Test the connection before adding the device.",
+            "test_timeout": "The connection test timed out. You can still add the device.",
+            "test_unresolved": "The hostname could not be resolved by Homey. You can still add the device.",
+            "test_refused": "The device responded, but the specified TCP port is closed. You can still add the device.",
+            "test_unreachable": "The device is not reachable from Homey. You can still add the device.",
+            "test_failed": "The connection test failed. You can still add the device.",
+            "host_invalid": "Enter a valid IP address or hostname.",
+            "ip_title": "Add an IP device",
+            "tcp_title": "Monitor a TCP service",
+            "name_placeholder": "For example: Living room TV",
+            "host_hint": "Use a numeric IP address or a hostname available from Homey.",
+            "host_placeholder": "192.168.1.25 or device.local",
+            "port_hint": "Enter the service port to monitor, from 1 to 65535.",
             "explanation": "Watch a TCP port on a specific IP address.",
             "ip_explanation": "Watch a device at a specific IP address using ARP with a TCP fallback.",
             "tcp_port_invalid": "The specified TCP port must be between 1 and 65535.",

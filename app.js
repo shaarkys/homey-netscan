@@ -1,7 +1,6 @@
 'use strict';
 
 const Homey = require('homey');
-const nodemailer = require('nodemailer');
 
 if (process.env.DEBUG === '1')
 {
@@ -187,50 +186,5 @@ class NetScanApp extends Homey.App
         }
     }
 
-    async sendLog(logType)
-    {
-        if (logType !== 'infoLog')
-        {
-            throw new Error('Unsupported log type');
-        }
-
-        const requiredVariables = ['MAIL_HOST', 'MAIL_USER', 'MAIL_SECRET', 'MAIL_RECIPIENT'];
-        const missingVariables = requiredVariables.filter((name) => !Homey.env[name]);
-        if (missingVariables.length > 0)
-        {
-            throw new Error('Missing mail configuration: ' + missingVariables.join(', '));
-        }
-
-        const transporter = nodemailer.createTransport({
-            host: Homey.env.MAIL_HOST,
-            port: 465,
-            secure: true,
-            auth: {
-                user: Homey.env.MAIL_USER,
-                pass: Homey.env.MAIL_SECRET,
-            },
-        });
-
-        try
-        {
-            await transporter.sendMail({
-                from: '"Homey User" <' + Homey.env.MAIL_USER + '>',
-                to: Homey.env.MAIL_RECIPIENT,
-                subject: 'Netscan Information log (' + this.manifest.version + ')',
-                text: this.diagLog,
-            });
-
-            return { error: null, message: 'OK' };
-        }
-        catch (err)
-        {
-            this.updateLog('Send log error: ' + this.varToString(err), 0);
-            throw err;
-        }
-        finally
-        {
-            transporter.close();
-        }
-    }
 }
 module.exports = NetScanApp;

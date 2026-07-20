@@ -1,67 +1,301 @@
-<style type="text/css">
-    .input-wrap label {
-        display: block;
-        margin-top: 12px;
+<style>
+    .pair-page {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 4px 2px 24px;
     }
 
-    .ip-scan-err-msg {
-        color: #ff6300;
+    .pair-title {
+        margin: 0 0 28px;
+        font-size: 27px;
+        line-height: 1.2;
+    }
+
+    .homey-form-fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    .homey-form-legend {
+        margin-bottom: 16px;
+        padding: 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .homey-form-group {
+        margin-bottom: 20px;
+    }
+
+    .homey-form-label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .homey-form-input {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 13px;
+        border: 1px solid #777;
+        border-radius: 10px;
+        color: inherit;
+        background: transparent;
+        font: inherit;
+    }
+
+    .homey-form-input:focus {
+        outline: none;
+        border-color: #ff5b18;
+        box-shadow: 0 0 0 3px rgba(255, 91, 24, 0.2);
+    }
+
+    .homey-form-input.is-invalid {
+        border-color: #e14a42;
+        box-shadow: 0 0 0 1px #e14a42;
+    }
+
+    .pair-label-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+    }
+
+    .pair-help,
+    .pair-optional {
+        color: inherit;
+        opacity: 0.62;
+    }
+
+    .pair-help {
+        margin: 6px 0 0;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .pair-optional {
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    .pair-status {
+        min-height: 22px;
+        margin: 2px 0 14px;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .pair-status.is-error {
+        color: #e14a42;
+    }
+
+    .pair-status.is-success {
+        color: #31a866;
+    }
+
+    .pair-status.is-warning {
+        color: #e58b22;
+    }
+
+    .pair-actions {
+        display: grid;
+        gap: 11px;
+    }
+
+    .pair-button {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 46px;
+        border-radius: 23px;
+        font: inherit;
+        font-weight: 600;
+    }
+
+    .pair-button-test {
+        border: 1px solid #ff5b18;
+        color: #ff5b18;
+        background: transparent;
+    }
+
+    .pair-button-add {
+        border: 0;
+        color: #fff;
+        background: #ff5b18;
+    }
+
+    .pair-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.42;
     }
 </style>
 
-<script type="text/javascript">
-    async function configure()
-    {
-        const errorElement = document.querySelector('.ip-scan-err-msg');
-        const ipAddress = document.getElementById('ip_address').value.trim();
-        const enteredName = document.getElementById('name').value.trim();
-        errorElement.textContent = '';
+<div class="pair-page">
+    <h1 class="pair-title" data-i18n="pair.configuration.ip_title"></h1>
 
-        if (!ipAddress)
+    <form class="homey-form" id="configure-form" novalidate>
+        <fieldset class="homey-form-fieldset">
+            <legend class="homey-form-legend" data-i18n="pair.configuration.device_details"></legend>
+
+            <div class="homey-form-group">
+                <div class="pair-label-row">
+                    <label class="homey-form-label" for="name" data-i18n="pair.configuration.name"></label>
+                    <span class="pair-optional" data-i18n="pair.configuration.optional"></span>
+                </div>
+                <input class="homey-form-input" type="text" id="name" maxlength="100" autocomplete="off" />
+            </div>
+
+            <div class="homey-form-group">
+                <label class="homey-form-label" for="ip_address" data-i18n="pair.configuration.host"></label>
+                <input class="homey-form-input" type="text" id="ip_address" maxlength="253"
+                    autocomplete="off" autocapitalize="none" spellcheck="false" required
+                    aria-describedby="host-hint test-status" />
+                <p class="pair-help" id="host-hint" data-i18n="pair.configuration.host_hint"></p>
+            </div>
+        </fieldset>
+
+        <p class="pair-status" id="test-status" role="status" aria-live="polite"></p>
+
+        <div class="pair-actions">
+            <button class="pair-button pair-button-test" id="test-button" type="button">
+                <span id="test-button-label" data-i18n="pair.configuration.test_connection"></span>
+            </button>
+            <button class="pair-button pair-button-add" id="add-button" type="submit" disabled>
+                <span id="add-button-label" data-i18n="pair.configuration.add_device"></span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+(() =>
+{
+    const form = document.getElementById('configure-form');
+    const hostInput = document.getElementById('ip_address');
+    const nameInput = document.getElementById('name');
+    const statusElement = document.getElementById('test-status');
+    const testButton = document.getElementById('test-button');
+    const testButtonLabel = document.getElementById('test-button-label');
+    const addButton = document.getElementById('add-button');
+    const addButtonLabel = document.getElementById('add-button-label');
+    let testedHost = null;
+
+    hostInput.placeholder = Homey.__('pair.configuration.host_placeholder');
+    nameInput.placeholder = Homey.__('pair.configuration.name_placeholder');
+
+    function setStatus(message = '', type = null)
+    {
+        statusElement.textContent = message;
+        statusElement.classList.toggle('is-error', type === 'error');
+        statusElement.classList.toggle('is-success', type === 'success');
+        statusElement.classList.toggle('is-warning', type === 'warning');
+    }
+
+    function showHostError(message)
+    {
+        hostInput.classList.add('is-invalid');
+        hostInput.setAttribute('aria-invalid', 'true');
+        setStatus(message, 'error');
+        hostInput.focus();
+    }
+
+    function resetTest()
+    {
+        testedHost = null;
+        addButton.disabled = true;
+        hostInput.classList.remove('is-invalid');
+        hostInput.removeAttribute('aria-invalid');
+        setStatus();
+    }
+
+    function setTesting(testing)
+    {
+        testButton.disabled = testing;
+        hostInput.disabled = testing;
+        testButtonLabel.textContent = Homey.__(testing
+            ? 'pair.configuration.testing_connection'
+            : 'pair.configuration.test_connection');
+    }
+
+    hostInput.addEventListener('input', resetTest);
+
+    testButton.addEventListener('click', async () =>
+    {
+        resetTest();
+        const host = hostInput.value.trim();
+        if (!host)
         {
-            errorElement.textContent = Homey.__('pair.configuration.host_required');
+            showHostError(Homey.__('pair.configuration.host_required'));
             return;
         }
 
+        setTesting(true);
+        setStatus(Homey.__('pair.configuration.testing_connection'));
+        try
+        {
+            const result = await Homey.emit('test_connection', { host });
+            testedHost = host;
+            addButton.disabled = false;
+            setStatus(result.available
+                ? Homey.__('pair.configuration.test_success')
+                : result.warning, result.available ? 'success' : 'warning');
+        }
+        catch (error)
+        {
+            showHostError(error.message || String(error));
+        }
+        finally
+        {
+            setTesting(false);
+        }
+    });
+
+    form.addEventListener('submit', async (event) =>
+    {
+        event.preventDefault();
+        const host = hostInput.value.trim();
+        if (testedHost !== host)
+        {
+            resetTest();
+            showHostError(Homey.__('pair.configuration.test_required'));
+            return;
+        }
+
+        const enteredName = nameInput.value.trim();
         const device = {
             data: {
                 id: 'IpScan-' + Date.now() + '-' + Math.random().toString(16).slice(2),
             },
-            name: enteredName || ipAddress,
+            name: enteredName || host,
             settings: {
-                host: ipAddress,
+                host,
                 probe_method: 'automatic',
             },
         };
 
+        addButton.disabled = true;
+        addButtonLabel.textContent = Homey.__('pair.configuration.adding_device');
         Homey.showLoadingOverlay();
         try
         {
             await Homey.createDevice(device);
             Homey.done();
         }
-        catch (err)
+        catch (error)
         {
-            errorElement.textContent = err.message || String(err);
+            setStatus(error.message || String(error), 'error');
+            addButton.disabled = false;
         }
         finally
         {
             Homey.hideLoadingOverlay();
+            addButtonLabel.textContent = Homey.__('pair.configuration.add_device');
         }
-    }
+    });
+})();
 </script>
-
-<p data-i18n="pair.configuration.ip_explanation"></p>
-<div class="form-group">
-    <span class="input-wrap">
-        <label for="name" data-i18n="pair.configuration.name"></label>
-        <input type="text" id="name" />
-
-        <label for="ip_address" data-i18n="pair.configuration.ip_address"></label>
-        <input type="text" id="ip_address" />
-    </span>
-</div>
-<button class="button" id="authentication_button" type="button" onclick="configure();">
-    <span data-i18n="pair.configuration.configure"></span>
-</button>
-<p class="ip-scan-err-msg"></p>

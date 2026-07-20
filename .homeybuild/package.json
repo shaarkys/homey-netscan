@@ -3,9 +3,6 @@
     "version": "2.0.10",
     "description": "Adds support to Homey to detect network devives",
     "main": "app.js",
-    "dependencies": {
-        "nodemailer": "^9.0.3"
-    },
     "devDependencies": {
         "homey": "^4.4.1"
     },

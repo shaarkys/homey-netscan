@@ -1,0 +1,43 @@
+{
+  "settings": {
+    "clear": "Logboek wissen",
+    "errorsOnlyHint": "Alleen fouten worden gelogd. Selecteer Basisinformatie om diagnostiek over de controletijd op te nemen.",
+    "logLevel": "Logniveau"
+  },
+  "errors": {
+    "arp_ipv4_required": "ARP-detectie vereist een numeriek IPv4-adres."
+  },
+  "pair": {
+    "configuration": {
+      "name": "Naam",
+      "optional": "Optioneel",
+      "device_details": "Apparaatgegevens",
+      "host": "IP-adres of hostnaam",
+      "ip_address": "IP-adres",
+      "tcp_port": "TCP-poort",
+      "configure": "Configureren",
+      "add_device": "Apparaat toevoegen",
+      "adding_device": "Apparaat toevoegen…",
+      "test_connection": "Verbinding testen",
+      "testing_connection": "Verbinding testen…",
+      "test_success": "Verbinding geslaagd. Je kunt het apparaat nu toevoegen.",
+      "test_required": "Test de verbinding voordat je het apparaat toevoegt.",
+      "test_timeout": "Er is een time-out opgetreden tijdens de verbindingstest. Je kunt het apparaat toch toevoegen.",
+      "test_unresolved": "De hostnaam kon niet door Homey worden gevonden. Je kunt het apparaat toch toevoegen.",
+      "test_refused": "Het apparaat reageert, maar de opgegeven TCP-poort is gesloten. Je kunt het apparaat toch toevoegen.",
+      "test_unreachable": "Het apparaat is niet bereikbaar vanuit Homey. Je kunt het apparaat toch toevoegen.",
+      "test_failed": "De verbindingstest is mislukt. Je kunt het apparaat toch toevoegen.",
+      "host_invalid": "Voer een geldig IP-adres of een geldige hostnaam in.",
+      "ip_title": "IP-apparaat toevoegen",
+      "tcp_title": "TCP-service bewaken",
+      "name_placeholder": "Bijvoorbeeld: Televisie woonkamer",
+      "host_hint": "Gebruik een numeriek IP-adres of een hostnaam die beschikbaar is vanuit Homey.",
+      "host_placeholder": "192.168.1.25 of apparaat.local",
+      "port_hint": "Voer de te bewaken servicepoort in, van 1 tot en met 65535.",
+      "explanation": "Bewaak een TCP-poort op een specifiek IP-adres.",
+      "ip_explanation": "Bewaak een apparaat op een specifiek IP-adres met ARP en TCP als terugvaloptie.",
+      "tcp_port_invalid": "De opgegeven TCP-poort moet tussen 1 en 65535 liggen.",
+      "host_required": "Voer een IP-adres of hostnaam in."
+    }
+  }
+}

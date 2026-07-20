@@ -1,0 +1,21 @@
+{
+    "type": "number",
+    "title": {
+        "en": "Probe time",
+        "nl": "Controleduur",
+        "de": "Prüfdauer"
+    },
+    "getable": true,
+    "setable": false,
+    "insights": true,
+    "units": {
+        "en": "ms",
+        "nl": "ms",
+        "de": "ms"
+    },
+    "decimals": 1,
+    "min": 0,
+    "step": 0.1,
+    "uiComponent": "sensor",
+    "icon": "/assets/probe-time.svg"
+}

@@ -1,7 +1,7 @@
 {
   "settings": {
     "clear": "Protokoll löschen",
-    "send": "Protokoll senden",
+    "errorsOnlyHint": "Es werden nur Fehler protokolliert. Wählen Sie Basisinformationen, um Diagnosemeldungen zur Prüfdauer einzubeziehen.",
     "logLevel": "Protokollstufe"
   },
   "errors": {
@@ -10,9 +10,30 @@
   "pair": {
     "configuration" : {
       "name": "Bezeichnung",
+      "optional": "Optional",
+      "device_details": "Gerätedetails",
+      "host": "IP-Adresse oder Hostname",
       "ip_address" : "IP-Adresse",
       "tcp_port" : "TCP-Port",
       "configure" : "Konfigurieren",
+      "add_device": "Gerät hinzufügen",
+      "adding_device": "Gerät wird hinzugefügt…",
+      "test_connection": "Verbindung testen",
+      "testing_connection": "Verbindung wird getestet…",
+      "test_success": "Verbindung erfolgreich. Das Gerät kann jetzt hinzugefügt werden.",
+      "test_required": "Testen Sie die Verbindung, bevor Sie das Gerät hinzufügen.",
+      "test_timeout": "Beim Verbindungstest wurde das Zeitlimit überschritten. Das Gerät kann trotzdem hinzugefügt werden.",
+      "test_unresolved": "Der Hostname konnte von Homey nicht aufgelöst werden. Das Gerät kann trotzdem hinzugefügt werden.",
+      "test_refused": "Das Gerät antwortet, aber der angegebene TCP-Port ist geschlossen. Das Gerät kann trotzdem hinzugefügt werden.",
+      "test_unreachable": "Das Gerät ist von Homey aus nicht erreichbar. Das Gerät kann trotzdem hinzugefügt werden.",
+      "test_failed": "Der Verbindungstest ist fehlgeschlagen. Das Gerät kann trotzdem hinzugefügt werden.",
+      "host_invalid": "Geben Sie eine gültige IP-Adresse oder einen gültigen Hostnamen ein.",
+      "ip_title": "IP-Gerät hinzufügen",
+      "tcp_title": "TCP-Dienst überwachen",
+      "name_placeholder": "Zum Beispiel: Fernseher Wohnzimmer",
+      "host_hint": "Verwenden Sie eine numerische IP-Adresse oder einen Hostnamen, der von Homey erreichbar ist.",
+      "host_placeholder": "192.168.1.25 oder geraet.local",
+      "port_hint": "Geben Sie den zu überwachenden Dienst-Port zwischen 1 und 65535 ein.",
       "explanation" : "Überwachung eines TCP-Ports an einer spezifischen IP-Adresse.",
       "ip_explanation" : "Überwachung eines Geräts an einer bestimmten IP-Adresse mit ARP und TCP-Rückfall.",
       "tcp_port_invalid" : "Der angegebene TCP-Port muss zwischen 1 und 65535 liegen.",

@@ -4,6 +4,8 @@ const Homey = require('homey');
 const net = require('net');
 
 const ARP_TIMEOUT = 3000;
+const PROBE_TIME_INSIGHTS_INTERVAL = 60 * 1000;
+const PROBE_TIME_CAPABILITY = 'measure_probe_time';
 const IP_PROBE_METHODS = new Set(['automatic', 'arp', 'tcp']);
 
 class TcpIpDevice extends Homey.Device
@@ -16,6 +18,8 @@ class TcpIpDevice extends Homey.Device
         this.scanGeneration = 0;
         this.stopped = false;
         this.unreachableCount = 0;
+        this.lastProbeTimeUpdateAt = 0;
+        this.probeTimeCapabilityIssueLogged = false;
         this.deferredCapabilities = new Set();
 
         this.reachable = await this.migrateCapabilities();
@@ -149,6 +153,15 @@ class TcpIpDevice extends Homey.Device
             this.deferredCapabilities.add('reachable');
         }
 
+        if (!this.hasCapability(PROBE_TIME_CAPABILITY))
+        {
+            await this.addCapability(PROBE_TIME_CAPABILITY);
+            this.deferredCapabilities.add(PROBE_TIME_CAPABILITY);
+            this.homey.app.updateLog(`${this.getName()} - Probe time capability added; `
+                + 'restart the app to activate probe time Insights');
+            this.probeTimeCapabilityIssueLogged = true;
+        }
+
         for (const capabilityId of ['alarm_offline', 'onoff'])
         {
             if (!this.hasCapability(capabilityId))
@@ -244,6 +257,92 @@ class TcpIpDevice extends Homey.Device
                 await this.setCapabilityValue(capabilityId, value);
             }
         }));
+    }
+
+    getElapsedMilliseconds(startedAt)
+    {
+        return Number(process.hrtime.bigint() - startedAt) / 1e6;
+    }
+
+    async updateProbeTime(probeTimeMs, probeMethod, force = false)
+    {
+        const roundedProbeTime = Math.round(probeTimeMs * 10) / 10;
+        if (!Number.isFinite(roundedProbeTime) || roundedProbeTime < 0)
+        {
+            this.homey.app.updateLog(`${this.getName()} - Invalid ${probeMethod} probe time: ${probeTimeMs}`, 0);
+            return;
+        }
+
+        if (this.deferredCapabilities.has(PROBE_TIME_CAPABILITY))
+        {
+            if (!this.probeTimeCapabilityIssueLogged)
+            {
+                this.homey.app.updateLog(`${this.getName()} - ${probeMethod} probe measured `
+                    + `${roundedProbeTime} ms, but probe time Insights are pending an app restart`);
+                this.probeTimeCapabilityIssueLogged = true;
+            }
+            return;
+        }
+
+        if (!this.hasCapability(PROBE_TIME_CAPABILITY))
+        {
+            if (!this.probeTimeCapabilityIssueLogged)
+            {
+                this.homey.app.updateLog(`${this.getName()} - ${probeMethod} probe measured `
+                    + `${roundedProbeTime} ms, but the probe time capability is missing`, 0);
+                this.probeTimeCapabilityIssueLogged = true;
+            }
+            return;
+        }
+
+        const now = Date.now();
+        if (!force && now - this.lastProbeTimeUpdateAt < PROBE_TIME_INSIGHTS_INTERVAL)
+        {
+            return;
+        }
+
+        try
+        {
+            if (this.getCapabilityValue(PROBE_TIME_CAPABILITY) !== roundedProbeTime)
+            {
+                await this.setCapabilityValue(PROBE_TIME_CAPABILITY, roundedProbeTime);
+            }
+            this.lastProbeTimeUpdateAt = now;
+            this.probeTimeCapabilityIssueLogged = false;
+            this.homey.app.updateLog(`${this.getName()} - ${probeMethod} probe time updated: `
+                + `${roundedProbeTime} ms${force ? ' after recovery' : ''}`);
+        }
+        catch (err)
+        {
+            this.error('Could not update probe time:', err);
+            this.homey.app.updateLog(`${this.getName()} - Could not update probe time: `
+                + (err.code || err.message || err), 0);
+        }
+    }
+
+    async clearProbeTime()
+    {
+        if (this.deferredCapabilities.has(PROBE_TIME_CAPABILITY)
+            || !this.hasCapability(PROBE_TIME_CAPABILITY))
+        {
+            return;
+        }
+
+        try
+        {
+            if (this.getCapabilityValue(PROBE_TIME_CAPABILITY) !== null)
+            {
+                await this.setCapabilityValue(PROBE_TIME_CAPABILITY, null);
+            }
+            this.lastProbeTimeUpdateAt = 0;
+            this.homey.app.updateLog(`${this.getName()} - Probe time cleared after the device went offline`);
+        }
+        catch (err)
+        {
+            this.error('Could not clear probe time:', err);
+            this.homey.app.updateLog(`${this.getName()} - Could not clear probe time: `
+                + (err.code || err.message || err), 0);
+        }
     }
 
     applySettings(settings)
@@ -371,7 +470,7 @@ class TcpIpDevice extends Homey.Device
         let finished = false;
         const automatic = this.probeMethod === 'automatic';
 
-        const complete = (online, error) =>
+        const complete = (online, error, probeTimeMs = null) =>
         {
             if (finished || this.stopped || generation !== this.scanGeneration)
             {
@@ -387,7 +486,7 @@ class TcpIpDevice extends Homey.Device
 
             if (online)
             {
-                this.completeScan(true, generation).catch((err) => this.error(err));
+                this.completeScan(true, generation, probeTimeMs, 'ARP').catch((err) => this.error(err));
                 return;
             }
 
@@ -420,13 +519,18 @@ class TcpIpDevice extends Homey.Device
         }
 
         this.homey.app.updateLog(`Checking ARP device ${this.getName()} - ${this.host}`);
+        const startedAt = process.hrtime.bigint();
         this.cancelCheck = this.homey.setTimeout(() =>
         {
             complete(false, new Error('ARP timeout'));
         }, Math.min(this.hostTimeout, ARP_TIMEOUT));
 
         this.homey.arp.getMAC(this.host)
-            .then((mac) => complete(typeof mac === 'string' && mac.length > 0))
+            .then((mac) =>
+            {
+                const online = typeof mac === 'string' && mac.length > 0;
+                complete(online, null, online ? this.getElapsedMilliseconds(startedAt) : null);
+            })
             .catch((err) => complete(false, err));
     }
 
@@ -435,6 +539,7 @@ class TcpIpDevice extends Homey.Device
         const client = new net.Socket();
         let finished = false;
         this.client = client;
+        const startedAt = process.hrtime.bigint();
 
         const target = this.host + (this.port === null ? '' : ':' + this.port);
         this.homey.app.updateLog('Checking ' + (this.port === null ? 'IP' : 'TCP') + ' device '
@@ -461,7 +566,8 @@ class TcpIpDevice extends Homey.Device
                 this.client = null;
             }
 
-            await this.completeScan(online, generation);
+            const probeTimeMs = online ? this.getElapsedMilliseconds(startedAt) : null;
+            await this.completeScan(online, generation, probeTimeMs, 'TCP');
         };
 
         client.once('connect', () =>
@@ -493,7 +599,7 @@ class TcpIpDevice extends Homey.Device
         }
     }
 
-    async completeScan(online, generation)
+    async completeScan(online, generation, probeTimeMs = null, probeMethod = null)
     {
         if (this.stopped || generation !== this.scanGeneration)
         {
@@ -502,6 +608,10 @@ class TcpIpDevice extends Homey.Device
 
         try
         {
+            if (online && Number.isFinite(probeTimeMs))
+            {
+                await this.updateProbeTime(probeTimeMs, probeMethod, this.reachable !== true);
+            }
             await this.recordObservation(online);
         }
         catch (err)
@@ -558,6 +668,7 @@ class TcpIpDevice extends Homey.Device
             this.reachable = false;
             await this.persistReachabilityTracking(false);
             await this.setReachabilityCapabilities(false);
+            await this.clearProbeTime();
             await this.driver.device_went_offline(this);
         }
         else
