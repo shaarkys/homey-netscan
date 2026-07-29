@@ -40,6 +40,10 @@ class TcpIpDevice extends Homey.Device
         }
 
         await this.initializeReachabilityTracking();
+        if (this.reachable === false)
+        {
+            await this.clearProbeTime();
+        }
         this.applySettings(this.getSettings());
         this.scanDevice();
     }
@@ -330,12 +334,16 @@ class TcpIpDevice extends Homey.Device
 
         try
         {
-            if (this.getCapabilityValue(PROBE_TIME_CAPABILITY) !== null)
+            const hadProbeTime = this.getCapabilityValue(PROBE_TIME_CAPABILITY) !== null;
+            if (hadProbeTime)
             {
                 await this.setCapabilityValue(PROBE_TIME_CAPABILITY, null);
             }
             this.lastProbeTimeUpdateAt = 0;
-            this.homey.app.updateLog(`${this.getName()} - Probe time cleared after the device went offline`);
+            if (hadProbeTime)
+            {
+                this.homey.app.updateLog(`${this.getName()} - Probe time cleared because the latest probe failed`);
+            }
         }
         catch (err)
         {
@@ -612,6 +620,10 @@ class TcpIpDevice extends Homey.Device
             {
                 await this.updateProbeTime(probeTimeMs, probeMethod, this.reachable !== true);
             }
+            else if (!online)
+            {
+                await this.clearProbeTime();
+            }
             await this.recordObservation(online);
         }
         catch (err)
@@ -668,7 +680,6 @@ class TcpIpDevice extends Homey.Device
             this.reachable = false;
             await this.persistReachabilityTracking(false);
             await this.setReachabilityCapabilities(false);
-            await this.clearProbeTime();
             await this.driver.device_went_offline(this);
         }
         else
