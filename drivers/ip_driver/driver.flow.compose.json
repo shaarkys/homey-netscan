@@ -139,5 +139,16 @@
 			"args": [],
 			"deprecated": true
 		}
+	],
+	"actions": [
+		{
+			"id": "ip_device_check_now",
+			"title": {
+				"en": "Check now",
+				"nl": "Nu controleren",
+				"de": "Jetzt prüfen"
+			},
+			"args": []
+		}
 	]
 }

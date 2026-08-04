@@ -50,6 +50,18 @@ class NetScanApp extends Homey.App
             return !args.device.reachable;
         });
 
+        const ip_device_check_now_action = this.homey.flow.getActionCard('ip_device_check_now');
+        ip_device_check_now_action.registerRunListener(async (args) =>
+        {
+            return args.device.checkNow();
+        });
+
+        const device_check_now_action = this.homey.flow.getActionCard('device_check_now');
+        device_check_now_action.registerRunListener(async (args) =>
+        {
+            return args.device.checkNow();
+        });
+
         for (const conditionId of ['ip_device_state_for', 'device_state_for'])
         {
             const condition = this.homey.flow.getConditionCard(conditionId);

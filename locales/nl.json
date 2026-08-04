@@ -5,7 +5,8 @@
     "logLevel": "Logniveau"
   },
   "errors": {
-    "arp_ipv4_required": "ARP-detectie vereist een numeriek IPv4-adres."
+    "arp_ipv4_required": "ARP-detectie vereist een numeriek IPv4-adres.",
+    "reachable_initializing": "Bereikbaarheid wordt geïnitialiseerd. Start de Net Scan-app opnieuw en probeer het opnieuw."
   },
   "pair": {
     "configuration": {

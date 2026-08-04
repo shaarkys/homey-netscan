@@ -23,12 +23,15 @@ class TcpIpDevice extends Homey.Device
         this.deferredCapabilities = new Set();
 
         this.reachable = await this.migrateCapabilities();
-        if (!this.deferredCapabilities.has('reachable') && this.hasCapability('reachable'))
+        if (this.hasCapability('reachable'))
         {
-            const currentReachable = this.getCapabilityValue('reachable');
-            if (typeof currentReachable === 'boolean')
+            if (!this.deferredCapabilities.has('reachable'))
             {
-                this.reachable = currentReachable;
+                const currentReachable = this.getCapabilityValue('reachable');
+                if (typeof currentReachable === 'boolean')
+                {
+                    this.reachable = currentReachable;
+                }
             }
 
             this.registerReadOnlyCapabilityListener('reachable');
@@ -52,6 +55,11 @@ class TcpIpDevice extends Homey.Device
     {
         this.registerCapabilityListener(capabilityId, async () =>
         {
+            if (this.deferredCapabilities.has(capabilityId))
+            {
+                throw new Error(this.homey.__('errors.reachable_initializing'));
+            }
+
             // Homey may still dispatch a request from a cached quick action; restore the measured state.
             this.homey.setTimeout(() =>
             {
@@ -402,6 +410,13 @@ class TcpIpDevice extends Homey.Device
         }
 
         this.applySettings(newSettings);
+        this.cancelCurrentScan();
+        this.scanDevice();
+    }
+
+    checkNow()
+    {
+        this.homey.app.updateLog(`Manual check requested for ${this.getName()} - ${this.host}`);
         this.cancelCurrentScan();
         this.scanDevice();
     }

@@ -5,7 +5,8 @@
     "logLevel": "Protokollstufe"
   },
   "errors": {
-    "arp_ipv4_required": "Die ARP-Erkennung erfordert eine numerische IPv4-Adresse."
+    "arp_ipv4_required": "Die ARP-Erkennung erfordert eine numerische IPv4-Adresse.",
+    "reachable_initializing": "Die Erreichbarkeit wird initialisiert. Starten Sie die Net Scan App neu und versuchen Sie es erneut."
   },
   "pair": {
     "configuration" : {

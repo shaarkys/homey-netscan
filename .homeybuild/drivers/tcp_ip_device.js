@@ -23,12 +23,15 @@ class TcpIpDevice extends Homey.Device
         this.deferredCapabilities = new Set();
 
         this.reachable = await this.migrateCapabilities();
-        if (!this.deferredCapabilities.has('reachable') && this.hasCapability('reachable'))
+        if (this.hasCapability('reachable'))
         {
-            const currentReachable = this.getCapabilityValue('reachable');
-            if (typeof currentReachable === 'boolean')
+            if (!this.deferredCapabilities.has('reachable'))
             {
-                this.reachable = currentReachable;
+                const currentReachable = this.getCapabilityValue('reachable');
+                if (typeof currentReachable === 'boolean')
+                {
+                    this.reachable = currentReachable;
+                }
             }
 
             this.registerReadOnlyCapabilityListener('reachable');
@@ -40,6 +43,10 @@ class TcpIpDevice extends Homey.Device
         }
 
         await this.initializeReachabilityTracking();
+        if (this.reachable === false)
+        {
+            await this.clearProbeTime();
+        }
         this.applySettings(this.getSettings());
         this.scanDevice();
     }
@@ -48,6 +55,11 @@ class TcpIpDevice extends Homey.Device
     {
         this.registerCapabilityListener(capabilityId, async () =>
         {
+            if (this.deferredCapabilities.has(capabilityId))
+            {
+                throw new Error(this.homey.__('errors.reachable_initializing'));
+            }
+
             // Homey may still dispatch a request from a cached quick action; restore the measured state.
             this.homey.setTimeout(() =>
             {
@@ -330,12 +342,16 @@ class TcpIpDevice extends Homey.Device
 
         try
         {
-            if (this.getCapabilityValue(PROBE_TIME_CAPABILITY) !== null)
+            const hadProbeTime = this.getCapabilityValue(PROBE_TIME_CAPABILITY) !== null;
+            if (hadProbeTime)
             {
                 await this.setCapabilityValue(PROBE_TIME_CAPABILITY, null);
             }
             this.lastProbeTimeUpdateAt = 0;
-            this.homey.app.updateLog(`${this.getName()} - Probe time cleared after the device went offline`);
+            if (hadProbeTime)
+            {
+                this.homey.app.updateLog(`${this.getName()} - Probe time cleared because the latest probe failed`);
+            }
         }
         catch (err)
         {
@@ -394,6 +410,13 @@ class TcpIpDevice extends Homey.Device
         }
 
         this.applySettings(newSettings);
+        this.cancelCurrentScan();
+        this.scanDevice();
+    }
+
+    checkNow()
+    {
+        this.homey.app.updateLog(`Manual check requested for ${this.getName()} - ${this.host}`);
         this.cancelCurrentScan();
         this.scanDevice();
     }
@@ -612,6 +635,10 @@ class TcpIpDevice extends Homey.Device
             {
                 await this.updateProbeTime(probeTimeMs, probeMethod, this.reachable !== true);
             }
+            else if (!online)
+            {
+                await this.clearProbeTime();
+            }
             await this.recordObservation(online);
         }
         catch (err)
@@ -668,7 +695,6 @@ class TcpIpDevice extends Homey.Device
             this.reachable = false;
             await this.persistReachabilityTracking(false);
             await this.setReachabilityCapabilities(false);
-            await this.clearProbeTime();
             await this.driver.device_went_offline(this);
         }
         else
