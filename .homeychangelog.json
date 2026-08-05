@@ -52,5 +52,8 @@
   },
   "2.1.3": {
     "en": "Added “Check now” Flow actions for IP and TCP devices and fixed the missing reachable quick-action listener after upgrades."
+  },
+  "2.1.4": {
+    "en": "Fixed missing Flow token translations and reduced the minimum device check interval to 5 seconds."
   }
 }
