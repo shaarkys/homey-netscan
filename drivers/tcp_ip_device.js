@@ -379,7 +379,7 @@ class TcpIpDevice extends Homey.Device
             : 'tcp';
 
         const interval = Number(settings.host_check_interval);
-        this.checkInterval = 1000 * (Number.isFinite(interval) && interval >= 15 ? interval : 15);
+        this.checkInterval = 1000 * (Number.isFinite(interval) && interval >= 5 ? interval : 5);
 
         const timeout = Number(settings.host_timeout);
         this.hostTimeout = 1000 * (Number.isFinite(timeout) && timeout >= 10 ? timeout : 10);

@@ -30,7 +30,9 @@
                 {
                     "name": "value",
                     "title": {
-                        "en": "Device Online State"
+                        "en": "Device Online State",
+                        "nl": "Apparaat Online Status",
+                        "de": "Online-Status Gerät"
                     },
                     "type": "boolean",
                     "example": true

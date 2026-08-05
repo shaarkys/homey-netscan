@@ -115,7 +115,7 @@
 					},
 					"type": "number",
 					"value": 15,
-					"min": 15,
+					"min": 5,
 					"units": "seconds",
 					"label": {
 						"en": "Check Interval",
