@@ -55,5 +55,8 @@
   },
   "2.1.4": {
     "en": "Fixed missing Flow token translations and reduced the minimum device check interval to 5 seconds."
+  },
+  "2.1.5": {
+    "en": "Reduced the minimum check timeout to 1 second and clarified the delay-between-checks setting."
   }
 }
