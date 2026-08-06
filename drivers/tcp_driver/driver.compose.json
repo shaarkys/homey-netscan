@@ -118,9 +118,9 @@
 					"min": 5,
 					"units": "seconds",
 					"label": {
-						"en": "Check Interval",
-						"nl": "Controleer interval",
-						"de": "Prüfintervall"
+						"en": "Delay between completed checks",
+						"nl": "Vertraging tussen voltooide controles",
+						"de": "Verzögerung zwischen abgeschlossenen Prüfungen"
 					}
 				},
 				{
@@ -132,7 +132,7 @@
 					},
 					"type": "number",
 					"value": 10,
-					"min": 10,
+					"min": 1,
 					"units": "seconds",
 					"label": {
 						"en": "Check Timeout",

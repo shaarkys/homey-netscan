@@ -382,7 +382,7 @@ class TcpIpDevice extends Homey.Device
         this.checkInterval = 1000 * (Number.isFinite(interval) && interval >= 5 ? interval : 5);
 
         const timeout = Number(settings.host_timeout);
-        this.hostTimeout = 1000 * (Number.isFinite(timeout) && timeout >= 10 ? timeout : 10);
+        this.hostTimeout = 1000 * (Number.isFinite(timeout) && timeout >= 1 ? timeout : 10);
 
         const unreachableChecks = Number(settings.host_unreachable_checks);
         const maxChecks = Number.isInteger(unreachableChecks) && unreachableChecks >= 1
