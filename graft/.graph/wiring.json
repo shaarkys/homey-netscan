@@ -1,0 +1,1800 @@
+{
+  "meta": {
+    "version": 1,
+    "nodeCount": 72,
+    "edgeCount": 120,
+    "languages": [
+      "javascript"
+    ],
+    "scopes": [
+      {
+        "prefix": "",
+        "label": "",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "api.js",
+      "name": "api.js",
+      "kind": "file",
+      "path": "api.js",
+      "span": "L1-L13",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "b601944b75606d08ecef6b5772339563b49ccc5f702b3699d53565cad46cff87",
+      "chars": 226,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "api.js#clearLog",
+      "name": "clearLog",
+      "kind": "method",
+      "path": "api.js",
+      "span": "L7-L11",
+      "signature": "async clearLog({ homey })",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "479a9b0d23d9d135065ec1ac2d6e5faed63d921347da6d208c35aa07732bd55f",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "api.js#getLog",
+      "name": "getLog",
+      "kind": "method",
+      "path": "api.js",
+      "span": "L3-L6",
+      "signature": "async getLog({ homey })",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "afc7544e3c4ca284fb19c803f65a0d0482e39d4c70662cd3cdc53712bdff0d24",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "app.js",
+      "name": "app.js",
+      "kind": "file",
+      "path": "app.js",
+      "span": "L1-L203",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "e66a655c685052923f276e60d37a845201d72d08e7a5a9dbaac2cf91e0ce0590",
+      "chars": 6259,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "app.js#NetScanApp",
+      "name": "NetScanApp",
+      "kind": "class",
+      "path": "app.js",
+      "span": "L17-L201",
+      "signature": "class NetScanApp extends Homey.App",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "0bddad4feb564177a89d9fa598cba53c806fe09823e875fd12ac2698ed60f1c1",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "app.js#NetScanApp.onInit",
+      "name": "onInit",
+      "kind": "method",
+      "path": "app.js",
+      "span": "L19-L108",
+      "signature": "async onInit()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "1a72c9f43a639a172d1de37740baa02bd9ab8847303a138c67a76440368f6da5",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "NetScanApp"
+    },
+    {
+      "id": "app.js#NetScanApp.updateLog",
+      "name": "updateLog",
+      "kind": "method",
+      "path": "app.js",
+      "span": "L160-L199",
+      "signature": "updateLog(newMessage, errorLevel = 1)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "4862ddcbb7e32a2319b690580f9752366a87b5367b478525df065c8de84d10e9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "NetScanApp"
+    },
+    {
+      "id": "app.js#NetScanApp.updateLog.zeroPad",
+      "name": "zeroPad",
+      "kind": "function",
+      "path": "app.js",
+      "span": "L162-L162",
+      "signature": "zeroPad = (num, places)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "b500b5b09e330a937c62e737a1d4a4a8f45df660c9ee55e479cd7175f8548a99",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "app.js#NetScanApp.varToString",
+      "name": "varToString",
+      "kind": "method",
+      "path": "app.js",
+      "span": "L110-L158",
+      "signature": "varToString(source)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "2d430ad563195b68500f1167253c57a6fbb3bedea250d3b057123a1a537c6eee",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "NetScanApp"
+    },
+    {
+      "id": "app.js#NetScanApp.varToString.getCircularReplacer",
+      "name": "getCircularReplacer",
+      "kind": "function",
+      "path": "app.js",
+      "span": "L128-L143",
+      "signature": "getCircularReplacer = ()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "10ac676dffe8d7cb8778ae624192e3c35dc45c9b176de0837dd5e74ffe08dfd3",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/ip_driver/device.js",
+      "name": "device.js",
+      "kind": "file",
+      "path": "drivers/ip_driver/device.js",
+      "span": "L1-L17",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "665e73d1cfac2a9d0d03b3afd849ce04852f27fe1d983064b6bd411f51e2306a",
+      "chars": 337,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/ip_driver/device.js#ipDevice",
+      "name": "ipDevice",
+      "kind": "class",
+      "path": "drivers/ip_driver/device.js",
+      "span": "L7-L15",
+      "signature": "class ipDevice extends TcpIpDevice",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "633e4900d5eb73bb20c669d6f0dbaf170ee29a91ef80856aaf57724d9fcd4939",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/ip_driver/device.js#ipDevice.onInit",
+      "name": "onInit",
+      "kind": "method",
+      "path": "drivers/ip_driver/device.js",
+      "span": "L9-L13",
+      "signature": "async onInit()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "5a1ab89ca3bdd95f4b351dbaae3ce8e98e012c9ab0e80eeded141045dd0669d9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ipDevice"
+    },
+    {
+      "id": "drivers/ip_driver/driver.js",
+      "name": "driver.js",
+      "kind": "file",
+      "path": "drivers/ip_driver/driver.js",
+      "span": "L1-L71",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "ddbb7e27fdfe4203845761ace52b8caf70def7dfd615c92b976c731f510e2372",
+      "chars": 1998,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/ip_driver/driver.js#ipDriver",
+      "name": "ipDriver",
+      "kind": "class",
+      "path": "drivers/ip_driver/driver.js",
+      "span": "L12-L69",
+      "signature": "class ipDriver extends Homey.Driver",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "1259605e5816b3f3657129a2a8330507507523983595ec97ef7782f938d752dc",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/ip_driver/driver.js#ipDriver.device_came_online",
+      "name": "device_came_online",
+      "kind": "method",
+      "path": "drivers/ip_driver/driver.js",
+      "span": "L45-L55",
+      "signature": "async device_came_online(device)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "6eddfe9aacd0f4b7fc683e8c07cd72c36367301af4e005f26267ad2fd6d91845",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ipDriver"
+    },
+    {
+      "id": "drivers/ip_driver/driver.js#ipDriver.device_went_offline",
+      "name": "device_went_offline",
+      "kind": "method",
+      "path": "drivers/ip_driver/driver.js",
+      "span": "L57-L67",
+      "signature": "async device_went_offline(device)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "3c70be5f3307528c86830c79c22ba3e96b098e1e15396b3ef2f8e1180a20567b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ipDriver"
+    },
+    {
+      "id": "drivers/ip_driver/driver.js#ipDriver.onInit",
+      "name": "onInit",
+      "kind": "method",
+      "path": "drivers/ip_driver/driver.js",
+      "span": "L15-L22",
+      "signature": "async onInit()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "21f8664b3a515b59677ab393748bef295d9a3129c8736e42fdd8409c8589ee6c",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ipDriver"
+    },
+    {
+      "id": "drivers/ip_driver/driver.js#ipDriver.onPair",
+      "name": "onPair",
+      "kind": "method",
+      "path": "drivers/ip_driver/driver.js",
+      "span": "L24-L43",
+      "signature": "async onPair(session)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "510c472c27816e823a446865df3663d32cbafdba85754656b01bd6ad8cf221b2",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ipDriver"
+    },
+    {
+      "id": "drivers/tcp_driver/device.js",
+      "name": "device.js",
+      "kind": "file",
+      "path": "drivers/tcp_driver/device.js",
+      "span": "L1-L16",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "bb58139d586bc9e9c0f57dcb9284e1561680356399013684b07349ab1fea552c",
+      "chars": 327,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_driver/device.js#tcpDevice",
+      "name": "tcpDevice",
+      "kind": "class",
+      "path": "drivers/tcp_driver/device.js",
+      "span": "L7-L14",
+      "signature": "class tcpDevice extends TcpIpDevice",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "64b6cd4018530cf9e98591d24546f82e9f9e461071fa66f3d965a1e55a2a7f92",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_driver/device.js#tcpDevice.onInit",
+      "name": "onInit",
+      "kind": "method",
+      "path": "drivers/tcp_driver/device.js",
+      "span": "L9-L13",
+      "signature": "async onInit()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "b4cb1aebfc8d1fcc38c91fd968284dfd95b1bed057072b2e91592f6f3c87d399",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "tcpDevice"
+    },
+    {
+      "id": "drivers/tcp_driver/driver.js",
+      "name": "driver.js",
+      "kind": "file",
+      "path": "drivers/tcp_driver/driver.js",
+      "span": "L1-L69",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "57d6a32999365e99b9d72da9eb44aa5f53b3bcd5d1887533dac5a0dc159b7b72",
+      "chars": 1868,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_driver/driver.js#tcpDriver",
+      "name": "tcpDriver",
+      "kind": "class",
+      "path": "drivers/tcp_driver/driver.js",
+      "span": "L11-L67",
+      "signature": "class tcpDriver extends Homey.Driver",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "ee332000215fb6a23e5420601df7a1721ae32a749ef6039c68a7d58369ff5345",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_driver/driver.js#tcpDriver.device_came_online",
+      "name": "device_came_online",
+      "kind": "method",
+      "path": "drivers/tcp_driver/driver.js",
+      "span": "L43-L53",
+      "signature": "async device_came_online(device)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "da46f9095bd5b762f4a4c7bf83ac13172a59ba6a04cf1907a11168623b5f721b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "tcpDriver"
+    },
+    {
+      "id": "drivers/tcp_driver/driver.js#tcpDriver.device_went_offline",
+      "name": "device_went_offline",
+      "kind": "method",
+      "path": "drivers/tcp_driver/driver.js",
+      "span": "L55-L65",
+      "signature": "async device_went_offline(device)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "dd5ccce52200d3dfd0b2342906687b1c407f64bb1d7d896dc6351df40e1f24f3",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "tcpDriver"
+    },
+    {
+      "id": "drivers/tcp_driver/driver.js#tcpDriver.onInit",
+      "name": "onInit",
+      "kind": "method",
+      "path": "drivers/tcp_driver/driver.js",
+      "span": "L13-L20",
+      "signature": "async onInit()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "aae9c74db1ea7226eb38d43cb531fcdc2f12b77d392403758ad374bc3f55a53c",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "tcpDriver"
+    },
+    {
+      "id": "drivers/tcp_driver/driver.js#tcpDriver.onPair",
+      "name": "onPair",
+      "kind": "method",
+      "path": "drivers/tcp_driver/driver.js",
+      "span": "L22-L41",
+      "signature": "async onPair(session)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "bec6b6833713ce7f6912114b8e7923900e590553ffb716378f15beca5738b1c1",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "tcpDriver"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js",
+      "name": "tcp_ip_device.js",
+      "kind": "file",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L1-L714",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "7f9bbf0517df4832dd09d1e0282eb57d67d34a28b264a39d98b7c81c031b60ab",
+      "chars": 22636,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "name": "TcpIpDevice",
+      "kind": "class",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L11-L711",
+      "signature": "class TcpIpDevice extends Homey.Device",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "3af79282237aa21a4b008085cbfb1573dc263e12057d8e4b923368aa67d02341",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.applySettings",
+      "name": "applySettings",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L364-L392",
+      "signature": "applySettings(settings)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "cda4350bdd701326b6ebb5e124937898de53e182e2886ab9d34fb4ef9fa27dd2",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.cancelCurrentScan",
+      "name": "cancelCurrentScan",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L430-L452",
+      "signature": "cancelCurrentScan()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "dd5665e576f108c9887ca76458265d1ae6c986e5ae17bbc01e6b34b88e9ddc9e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.clearProbeTime",
+      "name": "clearProbeTime",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L335-L362",
+      "signature": "async clearProbeTime()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "6b4d56e9539f9862fce9eebd82cbc7fb27ca6fcce8835c246be6b63198030ee3",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "name": "completeScan",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L625-L652",
+      "signature": "async completeScan(online, generation, probeTimeMs = null, probeMethod = null)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "9fde4e9d2c72dd630a37df8470303dd0c60461bf442de348c8892f14646a6a91",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.configureLegacyCapability",
+      "name": "configureLegacyCapability",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L202-L253",
+      "signature": "async configureLegacyCapability(capabilityId)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "25e8311edd0d3dcd5f7a6d97fe050b9f738a40f53df95f85021dfc490942cc7b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.getElapsedMilliseconds",
+      "name": "getElapsedMilliseconds",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L274-L277",
+      "signature": "getElapsedMilliseconds(startedAt)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "1e646a7ea8e57942d310fd7d988aea5f74152346d703395d7b862bed49fe2f2a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.handleOffline",
+      "name": "handleOffline",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L690-L704",
+      "signature": "async handleOffline()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "6cab66621551a6d644d2d5c606ca480b7ffbea1c58462a1c24e10bda11d7376b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.handleOnline",
+      "name": "handleOnline",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L674-L688",
+      "signature": "async handleOnline()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "7bc561a2a683340d6d7c0f73bb677ad14d79f89d7477ae16d739c88ef3d1e36d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.hasReachabilityStateFor",
+      "name": "hasReachabilityStateFor",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L111-L128",
+      "signature": "hasReachabilityStateFor(state, duration, unit)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "8529e63748b71704f7ba8bf5e23f872f13af9d9fafae6c65b75d49bafee7b62a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.checkNow",
+      "name": "checkNow",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L417-L422",
+      "signature": "checkNow()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "dfed47c65e9624dd8718ba62d2d8e4d8d961c50a573f6f9aa6cc20996c0c807c",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.initializeReachabilityTracking",
+      "name": "initializeReachabilityTracking",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L72-L93",
+      "signature": "async initializeReachabilityTracking()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "4993f728a1c2cace9772fdc6ec4afbffd350da851667e1beb9975c267db7d31f",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.migrateCapabilities",
+      "name": "migrateCapabilities",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L130-L200",
+      "signature": "async migrateCapabilities()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "e533c0c6856de7d457bfc70e14dc72f69a9bba5d4604842d85c988d5e1fb8145",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.onDeleted",
+      "name": "onDeleted",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L394-L397",
+      "signature": "async onDeleted()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "a7fac268e8a41c58323446855ff3ba357fc60af09cf77e299591db766b743aa4",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "name": "onInit",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L13-L52",
+      "signature": "async onInit()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "d16e734881339585c3a8ea6d2c81c678d1489eb1d78dab9d6ebb5bc9cf0276c1",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.onSettings",
+      "name": "onSettings",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L404-L415",
+      "signature": "async onSettings({ newSettings })",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "5aa0fd9a485c0272282d0900baed08048e7a0d9cd3d4f8f5da614ccc4bf9e5ae",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.onUninit",
+      "name": "onUninit",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L399-L402",
+      "signature": "async onUninit()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "aa5675ffc298140bb7427b1286dbe9cf9a81174f1184bf7871a272e51ae94572",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.persistReachabilityTracking",
+      "name": "persistReachabilityTracking",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L95-L109",
+      "signature": "async persistReachabilityTracking(reachable)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "3cbab2662984cf177c75cd717f476d68666d153cce05d0dcc426a9e5ba82c167",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.recordObservation",
+      "name": "recordObservation",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L654-L672",
+      "signature": "async recordObservation(online)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "d42f9275babb9ec84c699844c089306a3942584e221fdc7ba89907d58c2b41e6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.registerReadOnlyCapabilityListener",
+      "name": "registerReadOnlyCapabilityListener",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L54-L70",
+      "signature": "registerReadOnlyCapabilityListener(capabilityId)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "8ec518731b80e74e37b4694e355c3073f11cf60e2856b4bac9480a5069a5ed1b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "name": "scanDevice",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L468-L489",
+      "signature": "scanDevice()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "e433d594c4e344f833b2cc3c7e9709413a5e6dd7e3c969f5d0114be75fe56ccb",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp",
+      "name": "scanWithArp",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L491-L558",
+      "signature": "scanWithArp(generation)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "dfb9df22cc7a0663a5d072dc03b3590414db9061e4bbe0a667bb92b1d175ee4d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp.complete",
+      "name": "complete",
+      "kind": "function",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L496-L530",
+      "signature": "complete = (online, error, probeTimeMs = null)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "11d3b15da3141ee6430aca3cf308a65af8806dd38c1a90959fcd39453dd4554e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp",
+      "name": "scanWithTcp",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L560-L623",
+      "signature": "scanWithTcp(generation)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "e7fa914d8584ae89b8b478bebf327de97cf664c22be8bc27e6e67c6f6f7c1b9a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp.complete",
+      "name": "complete",
+      "kind": "function",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L571-L594",
+      "signature": "complete = async (online)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "6b82352453003d0a88caeab78555a027d1593748d83193ae67c4b1a02cea804d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.setReachabilityCapabilities",
+      "name": "setReachabilityCapabilities",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L255-L272",
+      "signature": "async setReachabilityCapabilities(reachable)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "b71201805eda972b374eb2ef9d1789ea58b7ae9fb32b37849689571bf8158917",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.scheduleNextScan",
+      "name": "scheduleNextScan",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L454-L466",
+      "signature": "scheduleNextScan(generation)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "71734f7e3ac101efbec3dbfb8515aa13265a410c241b292ca461db03e59133bb",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.slowDown",
+      "name": "slowDown",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L706-L710",
+      "signature": "slowDown()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "dac76b2f8a1f645d9b4ce63dda8e8810a130308f6ef1b2b1e048a7978ae883e9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.stopPolling",
+      "name": "stopPolling",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L424-L428",
+      "signature": "stopPolling()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "55c150c2d4e172fc75093b170e67affd19c7f94124797c82afef4e4aa53562e9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "drivers/tcp_ip_device.js#TcpIpDevice.updateProbeTime",
+      "name": "updateProbeTime",
+      "kind": "method",
+      "path": "drivers/tcp_ip_device.js",
+      "span": "L279-L333",
+      "signature": "async updateProbeTime(probeTimeMs, probeMethod, force = false)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "2ab972fbc4a2628f7207f5902211ab7b009bbd5070b3008349293cbb746b20d5",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TcpIpDevice"
+    },
+    {
+      "id": "lib/pairing_probe.js",
+      "name": "pairing_probe.js",
+      "kind": "file",
+      "path": "lib/pairing_probe.js",
+      "span": "L1-L196",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "79a71aaf911f4fb5ab705c5946cb8fcc3b71a83dc64114cb82eb38f957ed1699",
+      "chars": 4512,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#getProbeErrorMessage",
+      "name": "getProbeErrorMessage",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L168-L181",
+      "signature": "function getProbeErrorMessage(homey, error)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "34ed1db3e2ba7231d55fb393442c449991206c6ca370756eeaf47a4a672d6e8c",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#isPairingValidationError",
+      "name": "isPairingValidationError",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L183-L186",
+      "signature": "function isPairingValidationError(error)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "aa5e5a8fdad2eeaee0629350c9d5a2bf1bd54c468018d367a9a5b713c127a834",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#isValidHost",
+      "name": "isValidHost",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L17-L39",
+      "signature": "function isValidHost(host)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "294bb4e3cb6218eda90807c990c6c5e591a84781a292a607c3297ea2c15eb699",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#PairingProbeError",
+      "name": "PairingProbeError",
+      "kind": "class",
+      "path": "lib/pairing_probe.js",
+      "span": "L8-L15",
+      "signature": "class PairingProbeError extends Error",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "759bd33599394c4b4f1dd82e13f8bf1e106bcc90d86ce12e2184c13c998b0b95",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#PairingProbeError.constructor",
+      "name": "constructor",
+      "kind": "method",
+      "path": "lib/pairing_probe.js",
+      "span": "L10-L14",
+      "signature": "constructor(code)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "2e0f81528d717dedaf5854ee5259cf65b31cab0d4e50056c4faee279606e858a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PairingProbeError"
+    },
+    {
+      "id": "lib/pairing_probe.js#testArp",
+      "name": "testArp",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L116-L146",
+      "signature": "async function testArp(homey, host)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "33d8dabdd76dbc83194fd5129be5609a12ab70b8bc8ee700212fd6d01993825a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#testIpDevice",
+      "name": "testIpDevice",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L148-L158",
+      "signature": "async function testIpDevice(homey, host)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "47d9b7debfeb6793f2c1f3d8a7d7168ee9048f4abff5658f8877ca7375240394",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#testTcp",
+      "name": "testTcp",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L63-L114",
+      "signature": "function testTcp(host, port, acceptRefused)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "853e4710d9ba33918d3ae026b35de0bf51deef2086c48c3ec71870cd2693b644",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#testTcp.complete",
+      "name": "complete",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L70-L89",
+      "signature": "complete = (error = null)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "429be700feb7d9f1775dc144e394a5a26027b4bd4c31274a7d7edb16c3ca4f1a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#testTcpService",
+      "name": "testTcpService",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L160-L166",
+      "signature": "async function testTcpService(host, port)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "3fca990895aff40d6c7321f992c597873a80fc72d7f38c4ddacd318fe9bb0ca2",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#validateHost",
+      "name": "validateHost",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L41-L50",
+      "signature": "function validateHost(host)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "ddbf5a36a04dc169d55e67d302d07ec70c49ed084aefd0dd809198925ba1c844",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "lib/pairing_probe.js#validatePort",
+      "name": "validatePort",
+      "kind": "function",
+      "path": "lib/pairing_probe.js",
+      "span": "L52-L61",
+      "signature": "function validatePort(port)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "bca95cd7a3b654c159facecd03f28dd1ab58e9905fbbd70a0efa1b40c640092e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "api.js",
+      "target": "api.js#clearLog",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "api.js",
+      "target": "api.js#getLog",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js",
+      "target": "app.js#NetScanApp",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp",
+      "target": "app.js#NetScanApp.onInit",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp",
+      "target": "app.js#NetScanApp.updateLog",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp",
+      "target": "app.js#NetScanApp.varToString",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp.onInit",
+      "target": "app.js#NetScanApp.updateLog",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp.updateLog",
+      "target": "app.js#NetScanApp.updateLog.zeroPad",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp.updateLog",
+      "target": "app.js#NetScanApp.varToString",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp.updateLog",
+      "target": "app.js#NetScanApp.updateLog.zeroPad",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp.varToString",
+      "target": "app.js#NetScanApp.varToString.getCircularReplacer",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "app.js#NetScanApp.varToString",
+      "target": "app.js#NetScanApp.varToString.getCircularReplacer",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/device.js",
+      "target": "drivers/ip_driver/device.js#ipDevice",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/device.js#ipDevice",
+      "target": "drivers/ip_driver/device.js#ipDevice.onInit",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/device.js#ipDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "relation": "extends",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js",
+      "target": "drivers/ip_driver/driver.js#ipDriver",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js#ipDriver",
+      "target": "drivers/ip_driver/driver.js#ipDriver.device_came_online",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js#ipDriver",
+      "target": "drivers/ip_driver/driver.js#ipDriver.device_went_offline",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js#ipDriver",
+      "target": "drivers/ip_driver/driver.js#ipDriver.onInit",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js#ipDriver",
+      "target": "drivers/ip_driver/driver.js#ipDriver.onPair",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js#ipDriver.onPair",
+      "target": "lib/pairing_probe.js#getProbeErrorMessage",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js#ipDriver.onPair",
+      "target": "lib/pairing_probe.js#isPairingValidationError",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/ip_driver/driver.js#ipDriver.onPair",
+      "target": "lib/pairing_probe.js#testIpDevice",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/tcp_driver/device.js",
+      "target": "drivers/tcp_driver/device.js#tcpDevice",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_driver/device.js#tcpDevice",
+      "target": "drivers/tcp_driver/device.js#tcpDevice.onInit",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_driver/device.js#tcpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "relation": "extends",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js",
+      "target": "drivers/tcp_driver/driver.js#tcpDriver",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js#tcpDriver",
+      "target": "drivers/tcp_driver/driver.js#tcpDriver.device_came_online",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js#tcpDriver",
+      "target": "drivers/tcp_driver/driver.js#tcpDriver.device_went_offline",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js#tcpDriver",
+      "target": "drivers/tcp_driver/driver.js#tcpDriver.onInit",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js#tcpDriver",
+      "target": "drivers/tcp_driver/driver.js#tcpDriver.onPair",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js#tcpDriver.onPair",
+      "target": "lib/pairing_probe.js#getProbeErrorMessage",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js#tcpDriver.onPair",
+      "target": "lib/pairing_probe.js#isPairingValidationError",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/tcp_driver/driver.js#tcpDriver.onPair",
+      "target": "lib/pairing_probe.js#testTcpService",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.applySettings",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.cancelCurrentScan",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.clearProbeTime",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.configureLegacyCapability",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.getElapsedMilliseconds",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.handleOffline",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.handleOnline",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.hasReachabilityStateFor",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.checkNow",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.initializeReachabilityTracking",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.migrateCapabilities",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.onDeleted",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.onSettings",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.onUninit",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.persistReachabilityTracking",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.recordObservation",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.registerReadOnlyCapabilityListener",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.setReachabilityCapabilities",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scheduleNextScan",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.slowDown",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.stopPolling",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.updateProbeTime",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.clearProbeTime",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.recordObservation",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scheduleNextScan",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.updateProbeTime",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.handleOffline",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.persistReachabilityTracking",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.handleOffline",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.setReachabilityCapabilities",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.handleOnline",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.persistReachabilityTracking",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.handleOnline",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.setReachabilityCapabilities",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.checkNow",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.cancelCurrentScan",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.checkNow",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.initializeReachabilityTracking",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.persistReachabilityTracking",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.migrateCapabilities",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.configureLegacyCapability",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.migrateCapabilities",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.setReachabilityCapabilities",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onDeleted",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.stopPolling",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.applySettings",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.clearProbeTime",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.initializeReachabilityTracking",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.migrateCapabilities",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.registerReadOnlyCapabilityListener",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onInit",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onSettings",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.applySettings",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onSettings",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.cancelCurrentScan",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onSettings",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.onUninit",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.stopPolling",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.recordObservation",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.handleOffline",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.recordObservation",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.handleOnline",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.getElapsedMilliseconds",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp.complete",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp.complete",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithArp.complete",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp.complete",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp.complete",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.completeScan",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scanWithTcp.complete",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.getElapsedMilliseconds",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.scheduleNextScan",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.scanDevice",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "drivers/tcp_ip_device.js#TcpIpDevice.stopPolling",
+      "target": "drivers/tcp_ip_device.js#TcpIpDevice.cancelCurrentScan",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#getProbeErrorMessage",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#isPairingValidationError",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#isValidHost",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#PairingProbeError",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#testArp",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#testIpDevice",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#testTcp",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#testTcpService",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#validateHost",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js",
+      "target": "lib/pairing_probe.js#validatePort",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#PairingProbeError",
+      "target": "lib/pairing_probe.js#PairingProbeError.constructor",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#PairingProbeError",
+      "target": "Error",
+      "relation": "extends",
+      "confidence": "inferred"
+    },
+    {
+      "source": "lib/pairing_probe.js#testIpDevice",
+      "target": "lib/pairing_probe.js#testArp",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#testIpDevice",
+      "target": "lib/pairing_probe.js#testTcp",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#testIpDevice",
+      "target": "lib/pairing_probe.js#validateHost",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#testTcp",
+      "target": "lib/pairing_probe.js#testTcp.complete",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#testTcp",
+      "target": "lib/pairing_probe.js#testTcp.complete",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#testTcpService",
+      "target": "lib/pairing_probe.js#testTcp",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#testTcpService",
+      "target": "lib/pairing_probe.js#validateHost",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#testTcpService",
+      "target": "lib/pairing_probe.js#validatePort",
+      "relation": "calls",
+      "confidence": "extracted"
+    },
+    {
+      "source": "lib/pairing_probe.js#validateHost",
+      "target": "lib/pairing_probe.js#isValidHost",
+      "relation": "calls",
+      "confidence": "extracted"
+    }
+  ]
+}

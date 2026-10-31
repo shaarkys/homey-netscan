@@ -14,6 +14,7 @@
 	"capabilities": [
 		"reachable",
 		"measure_probe_time",
+		"last_seen",
 		"alarm_offline",
 		"onoff"
 	],
