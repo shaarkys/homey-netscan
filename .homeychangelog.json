@@ -58,5 +58,8 @@
   },
   "2.1.5": {
     "en": "Reduced the minimum check timeout to 1 second and clarified the delay-between-checks setting."
+  },
+  "2.1.6": {
+    "en": "Added a Last Seen timestamp for IP and TCP devices, updated at most every 30 seconds while the device is reachable."
   }
 }
