@@ -8,5 +8,6 @@
     "getable": true,
     "setable": false,
     "insights": false,
-    "uiComponent": "sensor"
+    "uiComponent": "sensor",
+    "icon": "/assets/last-seen.svg"
 }

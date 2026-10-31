@@ -26,17 +26,34 @@ async function main()
     device.recordObservation = async () => {};
     device.scheduleNextScan = () => {};
 
-    await device.updateLastSeen(Date.parse('2026-01-15T12:34:56Z'));
+    const firstSeen = Date.parse('2026-01-15T12:34:56Z');
+    await device.updateLastSeen(firstSeen);
     assert.strictEqual(values.last_seen, '2026-01-15 13:34:56');
+    await device.updateLastSeen(firstSeen + 29999);
+    assert.strictEqual(values.last_seen, '2026-01-15 13:34:56');
+    await device.updateLastSeen(firstSeen + 30000);
+    assert.strictEqual(values.last_seen, '2026-01-15 13:35:26');
     await device.completeScan(false, 1);
-    assert.strictEqual(values.last_seen, '2026-01-15 13:34:56');
+    assert.strictEqual(values.last_seen, '2026-01-15 13:35:26');
     await device.completeScan(true, 0);
-    assert.strictEqual(values.last_seen, '2026-01-15 13:34:56');
+    assert.strictEqual(values.last_seen, '2026-01-15 13:35:26');
     await device.completeScan(true, 1);
-    assert.notStrictEqual(values.last_seen, '2026-01-15 13:34:56');
-    device.deferredCapabilities.add('last_seen');
-    await device.updateLastSeen(Date.parse('2026-01-15T12:34:56Z'));
-    assert.notStrictEqual(values.last_seen, '2026-01-15 13:34:56');
+    assert.notStrictEqual(values.last_seen, '2026-01-15 13:35:26');
+    delete values.last_seen;
+    values.reachable = true;
+    values.measure_probe_time = null;
+    values.alarm_offline = false;
+    values.onoff = true;
+    device.getCapabilityValue = (id) => values[id];
+    device.addCapability = async (id) => { values[id] = null; };
+    device.configureLegacyCapability = async () => {};
+    device.setReachabilityCapabilities = async () => {};
+    device.log = () => {};
+    await device.migrateCapabilities();
+    assert.strictEqual(device.deferredCapabilities.has('last_seen'), false);
+    device.lastSeenUpdateAt = null;
+    await device.updateLastSeen(firstSeen);
+    assert.strictEqual(values.last_seen, '2026-01-15 13:34:56');
     console.log('Last seen checks passed');
 }
 

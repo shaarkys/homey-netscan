@@ -5,7 +5,9 @@ const net = require('net');
 
 const ARP_TIMEOUT = 3000;
 const PROBE_TIME_INSIGHTS_INTERVAL = 60 * 1000;
+const LAST_SEEN_UPDATE_INTERVAL = 30 * 1000;
 const PROBE_TIME_CAPABILITY = 'measure_probe_time';
+const LAST_SEEN_CAPABILITY = 'last_seen';
 const IP_PROBE_METHODS = new Set(['automatic', 'arp', 'tcp']);
 
 class TcpIpDevice extends Homey.Device
@@ -19,6 +21,7 @@ class TcpIpDevice extends Homey.Device
         this.stopped = false;
         this.unreachableCount = 0;
         this.lastProbeTimeUpdateAt = 0;
+        this.lastSeenUpdateAt = null;
         this.probeTimeCapabilityIssueLogged = false;
         this.deferredCapabilities = new Set();
 
@@ -172,6 +175,20 @@ class TcpIpDevice extends Homey.Device
             this.homey.app.updateLog(`${this.getName()} - Probe time capability added; `
                 + 'restart the app to activate probe time Insights');
             this.probeTimeCapabilityIssueLogged = true;
+        }
+
+        if (!this.hasCapability(LAST_SEEN_CAPABILITY))
+        {
+            try
+            {
+                this.log('Adding last seen capability');
+                await this.addCapability(LAST_SEEN_CAPABILITY);
+                this.log('Last seen capability added');
+            }
+            catch (err)
+            {
+                this.error('Could not add last seen capability:', err);
+            }
         }
 
         for (const capabilityId of ['alarm_offline', 'onoff'])
@@ -329,6 +346,42 @@ class TcpIpDevice extends Homey.Device
             this.error('Could not update probe time:', err);
             this.homey.app.updateLog(`${this.getName()} - Could not update probe time: `
                 + (err.code || err.message || err), 0);
+        }
+    }
+
+    async updateLastSeen(observedAt)
+    {
+        if (!this.hasCapability(LAST_SEEN_CAPABILITY))
+        {
+            return;
+        }
+
+        const previousUpdateAt = this.lastSeenUpdateAt;
+        const elapsed = observedAt - previousUpdateAt;
+        if (previousUpdateAt != null && elapsed >= 0 && elapsed < LAST_SEEN_UPDATE_INTERVAL)
+        {
+            return;
+        }
+        this.lastSeenUpdateAt = observedAt;
+
+        try
+        {
+            const parts = new Intl.DateTimeFormat('en-GB', {
+                timeZone: this.homey.clock.getTimezone(),
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
+            }).formatToParts(observedAt);
+            const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+            const timestamp = `${values.year}-${values.month}-${values.day} ${values.hour}:${values.minute}:${values.second}`;
+            await this.setCapabilityValue(LAST_SEEN_CAPABILITY, timestamp);
+        }
+        catch (err)
+        {
+            if (this.lastSeenUpdateAt === observedAt)
+            {
+                this.lastSeenUpdateAt = previousUpdateAt;
+            }
+            this.error('Could not update last seen:', err);
         }
     }
 
@@ -629,8 +682,13 @@ class TcpIpDevice extends Homey.Device
             return;
         }
 
+        const observedAt = Date.now();
         try
         {
+            if (online)
+            {
+                await this.updateLastSeen(observedAt);
+            }
             if (online && Number.isFinite(probeTimeMs))
             {
                 await this.updateProbeTime(probeTimeMs, probeMethod, this.reachable !== true);

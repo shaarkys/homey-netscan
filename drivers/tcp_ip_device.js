@@ -5,6 +5,7 @@ const net = require('net');
 
 const ARP_TIMEOUT = 3000;
 const PROBE_TIME_INSIGHTS_INTERVAL = 60 * 1000;
+const LAST_SEEN_UPDATE_INTERVAL = 30 * 1000;
 const PROBE_TIME_CAPABILITY = 'measure_probe_time';
 const LAST_SEEN_CAPABILITY = 'last_seen';
 const IP_PROBE_METHODS = new Set(['automatic', 'arp', 'tcp']);
@@ -20,6 +21,7 @@ class TcpIpDevice extends Homey.Device
         this.stopped = false;
         this.unreachableCount = 0;
         this.lastProbeTimeUpdateAt = 0;
+        this.lastSeenUpdateAt = null;
         this.probeTimeCapabilityIssueLogged = false;
         this.deferredCapabilities = new Set();
 
@@ -181,8 +183,7 @@ class TcpIpDevice extends Homey.Device
             {
                 this.log('Adding last seen capability');
                 await this.addCapability(LAST_SEEN_CAPABILITY);
-                this.deferredCapabilities.add(LAST_SEEN_CAPABILITY);
-                this.log('Last seen capability added; restart the app to activate it');
+                this.log('Last seen capability added');
             }
             catch (err)
             {
@@ -350,11 +351,18 @@ class TcpIpDevice extends Homey.Device
 
     async updateLastSeen(observedAt)
     {
-        if (this.deferredCapabilities.has(LAST_SEEN_CAPABILITY)
-            || !this.hasCapability(LAST_SEEN_CAPABILITY))
+        if (!this.hasCapability(LAST_SEEN_CAPABILITY))
         {
             return;
         }
+
+        const previousUpdateAt = this.lastSeenUpdateAt;
+        const elapsed = observedAt - previousUpdateAt;
+        if (previousUpdateAt != null && elapsed >= 0 && elapsed < LAST_SEEN_UPDATE_INTERVAL)
+        {
+            return;
+        }
+        this.lastSeenUpdateAt = observedAt;
 
         try
         {
@@ -369,6 +377,10 @@ class TcpIpDevice extends Homey.Device
         }
         catch (err)
         {
+            if (this.lastSeenUpdateAt === observedAt)
+            {
+                this.lastSeenUpdateAt = previousUpdateAt;
+            }
             this.error('Could not update last seen:', err);
         }
     }

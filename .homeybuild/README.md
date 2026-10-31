@@ -88,3 +88,13 @@ The reachability status is read-only and is updated exclusively by the configure
 
 * Device is online
 * Device is offline
+
+## Support development
+
+If this integration is useful to you, you can optionally support my ongoing development and maintenance:
+
+- [GitHub Sponsors](https://github.com/sponsors/shaarkys)
+- [Ko-fi](https://ko-fi.com/bretislavkubesa)
+- [PayPal](https://www.paypal.com/paypalme/bkubesa)
+
+Contributions are appreciated, never required, and do not affect features or support.

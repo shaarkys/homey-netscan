@@ -49,6 +49,9 @@
   },
   "contributing": {
     "donate": {
+      "githubSponsors": {
+        "username": "shaarkys"
+      },
       "paypal": {
         "username": "bkubesa"
       }
@@ -469,6 +472,7 @@
       "capabilities": [
         "reachable",
         "measure_probe_time",
+        "last_seen",
         "alarm_offline",
         "onoff"
       ],
@@ -644,6 +648,7 @@
       "capabilities": [
         "reachable",
         "measure_probe_time",
+        "last_seen",
         "alarm_offline",
         "onoff"
       ],
@@ -815,6 +820,19 @@
         "de": "IP ist nicht erreichbar"
       },
       "icon": "/assets/connection-status.svg"
+    },
+    "last_seen": {
+      "type": "string",
+      "title": {
+        "en": "Last seen",
+        "nl": "Laatst gezien",
+        "de": "Zuletzt gesehen"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/last-seen.svg"
     },
     "measure_probe_time": {
       "type": "number",
